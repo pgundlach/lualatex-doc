@@ -5,7 +5,7 @@ luatexbase:     resource management (gen, luatex)
 luatex:         resource managment (gen, luatex)
                 luatexbase and luatex are to be merged somehow
 
-luaextra:       Lua utilities (lua, luatex)
+lualibs:        Lua utility library (lua, luatex)
 luatextra:      loads luaextra+luatexbase+luaotfload; goodies (gen, luatex)
 xltxtra:        loads basics & fontspec; goodies & patches (ltx, xetex)
                 Plan: extend it to luatex, maybe merge luatextra in later.
@@ -24,7 +24,7 @@ euenc:          Unicode font encodings (ltx, xetex, luatex)
                 Includes a stripped down fork of xunicode:  euxunicode.
 xunicode:       convert usual CS like \' to Unicode (?) (ltx, xetex)
                 Could be used with luatex, but checks for xetex only.
-                Forked by Khaled to modify the check, is this fork active?
+                Stripped, modified version included in euenc.
 
 luacolor:       Colors via attributes (ltx, luatex)
                 luaotfload handle font color, this one is more general
@@ -42,8 +42,6 @@ lua_alt-getopt: Option parsing for scripts. (command-line, luatex)
 
 Coming next?
 
-lualatex-doc:   Overview of LuaLaTeX packages for user & dev (doc, luatex)
-
 luafontenc:     Support for old font encodings w/o active chars (ltx, luatex)
 
 luatex-def:     luatex.def file for graphics (ltx, luatex)
@@ -52,5 +50,7 @@ luaxetex:       emulation of XeTeX primitives (gen, luatex)
                 eg: \XeTeXinterchartoks, could be useful for portability?
 
 lualineno:      better implementation of lineno using luatex (ltx, luatex)
+
+soul:           could it use some LuaTeX features? (ltx, luatex)
 
 expl3 support?

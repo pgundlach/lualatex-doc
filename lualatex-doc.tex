@@ -1,0 +1,88 @@
+\documentclass{lltxdoc}
+
+\title{A guide to \lualatex}
+\author{Manuel Pégourié-Gonnard \\ \email{mpg@elzevir.fr}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This document guides the reader into the new world of
+  \lualatex.\footnote{Though focusing on \lualatex, it includes relevant
+    information about \luatex with the Plain format, too.} The intended
+  audience ranges from complete newcomers (with a working knowledge of
+  conventional \latex, though) to package developers. This guide is
+  intended to be comprehensive in the following sense: it contains pointers to
+  all relevant sources, gathers information that is otherwise scattered,
+  and adds introductory material.
+
+  Feedback, especially on the introduction, is most welcome.\footnote{The
+    document is currently at an early stage of writing.  Thanks for your
+    comprehension and patience.}
+\end{abstract}
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+
+Bla \verb+\relax+ bla.
+
+\subsection{Just what is \lualatex?}
+
+\subsection{Switching from \latex to \lualatex for the impatient}
+
+\subsection{A Lua-in-\tex primer}
+
+\subsection{Other things you should know}
+
+\section{Essential packages and practices}
+
+\subsection{User-level}
+
+\subsubsection{Fontspec}
+
+\subsection{Developer-level}
+
+\subsubsection{Engine detection: ifluatex, iftex, expl3}
+
+\subsubsection{Mode detection: ifpdf}
+
+\subsubsection{Luatexbase}
+
+\subsubsection{Luatex}
+
+\subsubsection{Font internals: luaotfload, euenc, xunicode}
+
+\subsubsection{Lualibs}
+
+\section{Other packages}
+
+\subsection{User-level}
+
+\subsubsection{Luainputenc}
+
+\subsubsection{Luamplib}
+
+\subsubsection{Microtype}
+
+\subsubsection{Luacolor}
+
+\subsubsection{Luadirections}
+
+\subsection{Developer-level}
+
+\subsubsection{Pdftexcmds}
+
+\subsubsection{Magicnum}
+
+\subsubsection{Lua-alt-getopt}
+
+\section{The \luatex\ and \lualatex\ formats}
+
+\end{document}
+
+% vim: set spell spelllang=en
