@@ -29,8 +29,6 @@
 
 \section{Introduction}
 
-Bla \verb+\relax+ bla.
-
 \subsection{Just what is \lualatex?}
 
 \subsection{Switching from \latex to \lualatex for the impatient}
@@ -39,29 +37,117 @@ Bla \verb+\relax+ bla.
 
 \subsection{Other things you should know}
 
-\section{Essential packages and practices}
+\section{Essential packages}
+
+This section presents the packages you'll probably want to always load as a
+user, or that you should absolutely know about as a developer.
 
 \subsection{User-level}
 
 \subsubsection{Fontspec}
 
+\pkgdesc{\WSPR}{\xetex, \luatex}{\latex}{%
+  macros/latex/contrib/fontspec/}[https://github.com/wspr/fontspec/]
+Nice interface to font management, well-integrated in to the \latex font
+selection scheme. Already presented in the previous section.
+
 \subsection{Developer-level}
 
 \subsubsection{Engine detection: ifluatex, iftex, expl3}
 
+Various packages allow to detect the engine currently processing the document.
+
+\medskip
+\pkgdesc[ifluatex]{\HO}{all}{generic}{%
+  macros/latex/contrib/oberdiek/ifluatex.dtx}
+Provides ©\ifluatex© and makes sure ©\luatexversion© is available.
+
+\medskip
+\pkgdesc[iftex]{\VK}{all}{generic}{%
+  macros/latex/contrib/iftex}[http://bitbucket.org/vafa/iftex]
+Provides ©\ifPDFTeX©, ©\ifXeTeX©, ©\ifLuaTeX© and corresponding ©\Require©
+commands.
+
+\medskip
+\pkgdesc[expl3]{The \LaTeX3 Project}{all}{\latex}{%
+  macros/latex/contrib/expl3}[http://www.latex-project.org/code.html]
+Amongst \emph{many} other things, provides ©\luatex_if_engine:TF©,
+©\xetex_if_engine:TF© and their variants.
+
 \subsubsection{Mode detection: ifpdf}
+
+\pkgdesc{\HO}{all}{generic}{%
+  macros/latex/contrib/oberdiek/ifpdf.dtx}
+Provides ©\ifpdf© switch. \luatex, like pdf\tex, can produce either PDF or DVI
+output; the later is not very useful with \luatex as it doesn't support any
+advanced feature such as Unicode and modern font formats. The ©\ifpdf© switch
+tells you if you are running pdf\tex-or-\luatex in PDF mode (note that this
+doesn't include \xetex).
 
 \subsubsection{Luatexbase}
 
+\pkgdesc{\ER \& \MPG}{\luatex}{generic}{%
+  macros/luatex/generic/luatexbase}[https://github.com/mpg/luatexbase]
+The Plain and \latex formats provide macros to manage \tex basic resources,
+such as count or box registers. \luatex introduces new resources that need to
+be shared gracefully by packages. This package provides the basic tools to
+manage: the extended conventional \tex resources, catcode tables, attributes,
+callbacks, Lua modules loading and identification. It also provides basic
+tools to handle a few compatibility issues with older version of \luatex.
+
+This package is quite fundamental and should probably be loaded by most
+package authors. However, some of its core functions are currently duplicated
+by the \pf{luatex} package, making them both incompatible. The authors plan to
+merge the two packages to solve this issue, but the timeline isn't very clear
+yet.
+
 \subsubsection{Luatex}
 
-\subsubsection{Font internals: luaotfload, euenc, xunicode}
+\pkgdesc{\HO}{\luatex}{generic}{%
+  macros/latex/contrib/oberdiek/luatex.dtx}
+See the description of \pf{luatexbase} above. This package provides the same
+core features except for callback management and Lua module identification.
+
+\subsubsection{Font internals: luaotfload, euenc}\label{fontint}
+
+Those packages are loaded by \pf{fontspec} to handle some low-level font and
+encoding issues. A normal user should only use \pf{fontspec}, but a developer
+may need to know about them.
+
+\medskip
+\pkgdesc[luaotfload]{\ER \& \KH}{\luatex}{generic}{%
+  macros/luatex/generic/luaotfload/}[https://github.com/khaledhosny/luaotfload]
+Low-level OpenType font loading. Basically, it uses the ©fontloader© Lua
+library and the appropriate callbacks to implement a syntax for the ©\font©
+primitive very similar to that of \xetex and implement the corresponding font
+features. It also handles a font database for transparent access to fonts from
+the system and the \tex distribution either by family name or by file name, as
+well as a font cache for faster loading.
+
+\medskip
+\pkgdesc[euenc]{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
+  macros/latex/contrib/euenc}[https://github.com/wspr/euenc]
+Implements the ©EUx© Unicode font encodings for \latex's \pf{fontenc} system.
+Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
+definitions (©fd© files) for Latin Modern, the default font loaded by
+\pf{fontspec}.
+
+Also includes a stripped version of \pf{xunicode} so that the usual control
+sequences for non-ASCII characters (such as ©\'e©) do the right thing.
 
 \subsubsection{Lualibs}
+
+\pkgdesc{\ER}{\luatex}{Lua}{%
+  macros/luatex/generic/lualibs}[https://github.com/mpg/lualibs]
+Collection of Lua libraries and additions to the standard libraries; mostly
+derived from the \context libraries. If you need a basic function that Lua
+doesn't provide, check this package before rolling your own version.
 
 \section{Other packages}
 
 \subsection{User-level}
+
+\subsubsection{Luatextra}
 
 \subsubsection{Luainputenc}
 
@@ -82,6 +168,12 @@ Bla \verb+\relax+ bla.
 \subsubsection{Lua-alt-getopt}
 
 \section{The \luatex\ and \lualatex\ formats}
+
+\section{Not working (yet)}
+
+Package \pf{xunicode} would \emph{probably} work with \luatex, but explicitly
+checks for \xetex only. Since \pf{euenc} (see~\ref{fontint}) includes a
+modified version of this packages, this should not be a problem.
 
 \end{document}
 
