@@ -19,9 +19,10 @@
     \csname #1\endcsname}{#1}}
 \newcommand*\simple@logo [3] {%
   \newcommand #1 {#2\xspace}%
-  \pdfstringdefDisableCommands{\def#1{#3}}}
+  \pdfstringdefDisableCommands{\def#1{#3\space}}}
 
 \providecommand \ConTeXt {Con\TeX{}t}
+\providecommand \pdfTeX {pdf\TeX}
 
 \simplelogo {TeX}
 \simplelogo {LaTeX}
@@ -30,12 +31,14 @@
 \simplelogo {XeTeX}
 \simplelogo {XeLaTeX}
 \simplelogo {ConTeXt}
+\simplelogo {pdfTeX}
 
 \fvset{formatcom=\color{blue!80!black}}
 \DefineShortVerb\©
 
 \newcommand*\email [1] {\href{mailto:#1}{#1}}
 \newcommand*\ctan  [1] {\href{http://mirror.ctan.org/#1}{\nolinkurl{#1}}}
+\newcommand \file      {\nolinkurl}
 
 \newcommand \pf {\textsf}
 
@@ -53,9 +56,11 @@
   \pditem {Development url} {#6}[\url]
   \newline
 }
-\newcommand\WSPR{Will Robertson}
-\newcommand\KH{Khaled Hosny}
-\newcommand\HO{Heiko Oberdiek}
-\newcommand\ER{Élie Roux}
-\newcommand\MPG{Manuel Pégourié-Gonnard}
-\newcommand\VK{Vafa Khalighi}
+\newcommand \WSPR {Will Robertson\xspace}
+\newcommand \KH   {Khaled Hosny\xspace}
+\newcommand \HO   {Heiko Oberdiek\xspace}
+\newcommand \ER   {Élie Roux\xspace}
+\newcommand \MPG  {Manuel Pégourié-Gonnard\xspace}
+\newcommand \VK   {Vafa Khalighi\xspace}
+\newcommand \HH   {Hans Hagen\xspace}
+\newcommand \Taco {Taco Hoewater\xspace}
