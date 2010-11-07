@@ -39,7 +39,109 @@
 
 \subsection{Just what is \lualatex?}\label{what}
 
+To answer this question, we need to mention a few details about the \tex world
+that you may usually ignore: the difference between an \emph{engine} and a
+\emph{format}. An engine is an actual computer program, while a format is a
+set of macros executed by an engine, usually preloaded when the engine is
+invoked with a particular name.
+
+Actually, a format is more or less like a document class or a package, except
+it is associated with a particular command name. Imagine there is a command
+\cmd{latex-article} that would do the same as \cmd{latex}, except you wouldn't
+need to say ©\documentclass{article}© at the beginning of your file.
+Similarly, in current distributions, the command \cmd{pdflatex} is the same as
+the command \cmd{pdftex} except that you don't need to put the instructions to
+load \latex at the beginning of your source file. This is convenient, and
+slightly more efficient too.
+
+Formats are great because they implement powerful commands using the basic
+tools an engine provides.  However the power of the format is sometimes
+limited by the engine's tools set, so people started developing more
+powerful engines so that other people can implement even more powerful formats
+(or packages). The most famous engines now (except the original \tex) are
+\pdftex, \xetex and \luatex.
+
+To further complicate the picture, the original \tex engine produced only DVI
+files, while its successors may (also) produce PDF file.  Each command in your
+system corresponds to a particular engine with a particular format and a
+particular output mode. The following table summarizes this: rows are indexed
+by format, columns by engine, and in each cell the first line is the command
+for this engine with this format in DVI mode, and the second for the same PDF
+mode.
+
+\begin{center}
+  \newcommand*\cell [2] {%
+    \parbox{6em}{\centering\leavevmode\color{code}\ttfamily
+      \strut\maybe{#1} \\ \strut\maybe{#2}}}
+  \makeatletter
+  \newcommand*\maybe [1] {%
+    \@ifmtarg{#1} {\textcolor{gray}{\normalfont (none)}} {#1}}
+  \begin{tabular}{l|cccc}
+                & \tex & \pdftex & \xetex & \luatex
+    \\ \hline
+    Plain
+                &  \cell{tex}{}
+                &  \cell{etex}{pdftex}
+                &  \cell{}{xetex}
+                &  \cell{dviluatex}{luatex}
+    \\
+    \latex
+                &  \cell{}{}
+                &  \cell{latex}{pdflatex}
+                &  \cell{}{xelatex}
+                &  \cell{dvilualatex}{lualatex}
+    \\
+  \end{tabular}
+\end{center}
+
+We can now answer the title question: \lualatex is the \luatex engine with the
+\latex format. Well, this answer isn't very satisfying if you don't know what
+\luatex and \latex are.
+
+As you probably know, \latex is the general frameworks
+in which documents begin with ©\documentclass©, packages are loaded with
+©\usepackage©, fonts are selected in a clever way (so that you can switch to
+boldface while preserving italics), pages are build with complicated algorithm
+including support for headers, footers, footnotes, margin notes, floating
+material, etc. This mostly doesn't change with \lualatex, but new and more
+powerful packages are available to make parts of the system work in a better
+way.
+
+Let's look at \luatex now. It is the designated successor of \pdftex and
+includes of all its core features: direct generation of PDF files with support
+for advanced PDF features and micro-typographic enhancements to \tex
+typographic algorithms. The main new features of \luatex are:
+\begin{enumerate}
+  \item Native support of Unicode, the modern standard for character
+    classification and encoding, supporting all scripting systems of the
+    world, from English to traditional Chinese, including a huge lot a
+    mathematical (or otherwise specialised) symbols.
+  \item Inclusion of Lua as a embedded scripting languages (see
+    section~\ref{luaintex} for details).
+  \item A lot of wonderful Lua libraries, including:
+    \begin{itemize}
+      \item ©fontloader©, supporting modern font formats such as
+        TrueType and OpenType;
+      \item ©font©, allowing advanced manipulation of the fonts
+        from within the document;
+      \item ©mplib©, an embedded version of the graphic program MetaPost;
+      \item ©callback©, providing hooks into parts of the \tex engine that
+        were previously inaccessible to the programmer;
+      \item utility libraries for manipulating images, pdf files, etc.
+    \end{itemize}
+\end{enumerate}
+Some of these features, such as Unicode support, directly impact all
+documents, while others merely provide tools that package authors will use to
+provide you with more powerful commands and other enhancements.
+
 \subsection{Switching from \latex to \lualatex}\label{switch}
+
+As the previous section explains, \lualatex is mostly like \latex, with a few
+differences, and more powerful packages and tools available. Here we present
+absolute minimum you should know to produce a document with \lualatex, while
+the rest of the documents provides more details about the available packages.
+
+
 
 \subsection{A Lua-in-\tex primer}\label{luaintex}
 
@@ -280,7 +382,6 @@ implements this for the \cmd{lualatex} format, is:
           that had been written.
       \end{itemize}
   \end{enumerate}
-  \hfill Manuel and Karl, September 2009.\par
 \end{myquote}
 
 \para{\cs{jobname}}[jobname]
