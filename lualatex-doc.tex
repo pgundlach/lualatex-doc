@@ -8,7 +8,7 @@
 \documentclass{lltxdoc}
 
 \title{A guide to \lualatex}
-\author{Manuel Pégourié-Gonnard \\ \email{mpg@elzevir.fr}}
+\author{Manuel Pégourié-Gonnard \email{mpg@elzevir.fr}}
 \date{\today}
 
 \begin{document}
@@ -28,10 +28,13 @@
   Feedback and suggestions for improvement are most welcome.
 \end{abstract}
 
+\vspace{\stretch{1}}
 \setcounter{tocdepth}{2}
-\tableofcontents
+\listoftoc*{toc}
+\vspace*{\stretch{2}}
 \clearpage
 
+
 \section{Introduction}\label{intro}
 
 \subsection{Just what is \lualatex?}\label{what}
@@ -40,8 +43,9 @@
 
 \subsection{A Lua-in-\tex primer}\label{luaintex}
 
-\subsection{Other things you should know}\label{misc}
+\subsection{Other things you should know}\label{things}
 
+
 \section{Essential packages and practices}\label{essential}
 
 This section presents the packages you'll probably want to always load as a
@@ -69,14 +73,14 @@ unique prefix for internal macros in all of your packages, aren't you?
 
 On the Lua end, please keep the global namespace as clean as possible. That
 is, use a table ©mypackage© and put all your public functions and objects in
-this table. You might want to use Lua's \href
-{http://www.lua.org/manual/5.1/manual.html#pdf-module} {\code{module()}}.
-Other strategies for Lua module management are discussed in \href
-{http://www.lua.org/pil/15.html} {chapter~15 of \emph{Programming in Lua}}.
-Also, it is probably a good idea to use ©local© for your internal variables
-and functions. Finally, to avoid clashes with future versions of \luatex, it
-is recommended to avoid modifying the namespaces of \luatex's default
-libraries.
+this table. You might want to use Lua's
+\href{http://www.lua.org/manual/5.1/manual.html#pdf-module} {\code{module()}}.
+Other strategies for Lua module management are discussed in
+\href{http://www.lua.org/pil/15.html} {chapter~15 of \emph{Programming in
+    Lua}}.  Also, it is probably a good idea to use ©local© for your internal
+variables and functions. Finally, to avoid clashes with future versions of
+\luatex, it is recommended to avoid modifying the namespaces of \luatex's
+default libraries.
 
 \subsubsection{Engine and mode detection}\label{detect}
 
@@ -156,6 +160,7 @@ definitions (\file{fd} files) for Latin Modern, the default font loaded by
 Also includes a stripped version of \pf{xunicode} so that the usual control
 sequences for non-ASCII characters (such as ©\'e©) do the right thing.
 
+
 \section{Other packages}\label{other}
 
 \subsection{User-level}
@@ -210,12 +215,114 @@ Command-line option parser, mostly compatible with POSIX and GNU getopt, to be
 used in command-line Lua scripts such as \cmd{mkluatexfontdb} from
 \pk{luaotfload}.
 
+
 \section{The \cmd{luatex} and \cmd{lualatex} formats}\label{formats}
 
-\section{Things that Just Work, partially work, or don't work (yet)}
+This section is for developers and curious users only; normal users can safely
+skip it. The following informations apply to \texlive 2010, and most likely to
+\miktex 2.9 too, though I didn't actually check. Earlier versions of \texlive
+had slightly different and less complete arrangements.
+
+\para{Primitive names}
+As mentioned in section~\ref{things}, the name of the \luatex-specific
+primitives are not the same in the \cmd{lualatex} format as in the \luatex
+manual. In the \cmd{luatex} format (that is, \luatex with the Plain format),
+primitives are available with their natural name, but also with the prefixed
+name, in order to ease development of generic packages.
+
+The rationale, copy-pasted from the file \file{lualatexiniconfig.tex} that
+implements this for the \cmd{lualatex} format, is:
+
+\begin{myquote}
+  \begin{enumerate}
+    \item All current macro packages run smoothly on top of pdf(e)TeX, so
+      those primitives are left untouched.
+    \item Other non-TeX82 primitives in \luatex may cause name clashes with
+      existing macros in macro packages, especially when they use very
+      ``natural'' names such as ©\outputbox©, ©\mathstyle© etc. Such a
+      probability for name clashes is undesirable, since the most existing
+      LaTeX documents that run without change under \luatex, the better.
+    \item The \luatex team doesn't want to apply a systematic prefixing policy,
+      but kindly provided a tool allowing prefixes to be applied. So we chose
+      to use it.  Previously, we even disabled the extra primitives, but now
+      we feel it's better to enable them with systematic prefixing, in order
+      to avoid that each and every macro package (or user) enables them with
+      various and inconsistent prefixes (including the empty prefix).
+    \item The ©luatex© prefix was chosen since it is already used as a prefix
+      for some primitives, such as ©\luatexversion©: this way, those
+      primitives don't end up with a double prefix (for details, see
+      ©tex.enableprimitives© in the \luatex manual).
+    \item The ©\directlua© primitive is provided both with its natural name
+      (allowing easy detection of \luatex) and a prefixed version
+      ©\luatexdirectlua© (for consistency with ©\luatexlatelua©).
+    \item Various remarks:
+      \begin{itemize}
+        \item The obvious drawback of such a prefixing policy is that the
+          names used by \latex or generic macro writer won't match the names
+          used in the manual.  We hope this is compensated by the gain in
+          backwards compatibility.
+        \item All primitives dealing with Unicode math already begin with ©\U©,
+          and maybe will match the names of \xetex primitives some day, so
+          maybe prefixing was not necessary/desirable for them. However, we
+          tried to make the prefixing rule as simple as possible, so that
+          the previous point doesn't get even worse.
+        \item The final name of some primitive may sound strange, namely those
+          already containing the name of an engine, such as
+          ©\luatexOmegaVersion©.  However, since \luatex is not a drop-in
+          replacement for Omega/Aleph, we felt it wrong to provide
+          ©\OmegaVersion©.
+        \item Maybe some day we'll feel it's better to provide all primitives
+          without prefixing. If this happens, it will be easy to add the
+          unprefixed primitives in the format while keeping the prefixed names
+          for compatibility. It wouldn't work the other way round; i.e.,
+          belatedly realizing that we should not provide the unprefixed
+          primitives would then break any \luatex-specific macro packages
+          that had been written.
+      \end{itemize}
+  \end{enumerate}
+  \hfill Manuel and Karl, September 2009.\par
+\end{myquote}
+
+\para{\cs{jobname}}[jobname]
+The \latex kernel (and a lot of packages) use constructs like
+©\input\jobname.aux© for various purposes. When ©\jobname© contains spaces,
+this doesn't do the right thing, since the argument of ©\input© ends at the
+first space. To work around this, \pdftex automagically quotes ©\jobname© when
+needed, but \luatex doesn't for some reason. A nearly complete workaround is
+included in \latex-based (as opposed to Plain-based) \luatex formats.
+
+It doesn't work, however, if \luatex is invoked as ©lualatex '\input name'©,
+as opposed to the more usual ©lualatex name©. To work around this
+limitation of the workaround included in the format, specifying a jobname
+explicitly, as in ©lualatex jobname=name '\input name'©. Or even better, just
+don't use spaces in the names of your \tex files.
+
+For more details, see
+\href{http://www.ntg.nl/pipermail/dev-luatex/2009-April/002549.html}{this old
+  thread} and
+\href{http://tug.org/pipermail/luatex/2010-August/001986.html}{this newer one}
+on the \luatex mailing lists, and \file{lualatexquotejobname.tex} for the
+implementation of the workaround.
+
+
+\section{Things that just work, partially work, or don't work (yet)}
 \label{workornot}
 
-\subsection{Just Working}\label{working}
+\subsection{Just working}\label{working}
+
+\para{Unicode}
+Conventional \latex offers some level of support for UTF-8 in input files.
+However, at a low level, non-ASCII characters are not atomic in this case:
+they consist of several elementary pieces (known as \emph{tokens} to
+\tex{}nicians). Hence, packages that scan text character by character
+often have problems with UTF-8 in conventional \latex. Such packages include:
+\pf{fancyvrb}, \pf{listings}, \pf{soul} and probably others.
+
+The good new is, with \lualatex, these packages start working on arbitrary
+Unicode characters without even being modified. (Disclaimer: I didn't run
+thorough tests, but I'm pretty sure they do.) You don't need to use tricky
+wrapper packages such as \pf{listingsutf8} or \pf{soulutf8} (they won't work
+with \luatex, anyway).
 
 \subsection{Partially working}\label{partial}
 
@@ -230,7 +337,7 @@ microtypographic features. So the only problem is the lack of a unified
 interface.
 
 \para{xunicode}
-Package \pf{xunicode}'s main feature is to ensure that the usual
+Package \pf{xunicode}'s main feature is to ensure that the usual control
 sequences for non-ASCII characters (such as ©\'e©) do the right thing in a
 Unicode context. It could \emph{probably} work with \luatex, but explicitly
 checks for \xetex only. Since \pk{euenc}, loaded by \pk{fontspec}, includes a
@@ -238,6 +345,23 @@ modified version of this package, you usually don't need \pf{xunicode} so this
 is not a problem.
 
 \subsection{Not working (yet)}\label{notworking}
+
+\para{old encodings}[oldenco] Packages playing with input (source files) or
+output (fonts) encodings are very likely to break with \luatex. The good news
+is, Unicode is a more powerful way to handle encoding problems that old
+packages were trying to solve, so you most likely don't need these packages
+anyway. However, not everything is already ported to the shiny new world of
+Unicode, so you may have a more limited (or just different) set of choices
+available for some time (this is especially true for fonts).
+
+\para{spaces} Spaces in file names are not really well supported in the \tex
+world in general. This doesn't really get better with \luatex. Also, due to
+tricky reasons, things my be worse if you have spaces in the name of your main
+\tex file \emph{and} don't invoke \luatex in the usual way. If you do you
+invoke it in the usual way, everything should work, and I won't tell you what
+the unusual invocation looks like. Otherwise, read the point about
+\pararef{jobname} in section~\ref{formats} for a workaround and technical
+details. Or even better, don't use spaces in the names of your \tex files.
 
 \end{document}
 

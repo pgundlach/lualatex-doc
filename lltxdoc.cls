@@ -24,8 +24,10 @@
   \newcommand #1 {#2\xspace}%
   \pdfstringdefDisableCommands{\def#1{#3\space}}}
 
-\providecommand \ConTeXt {Con\TeX{}t}
-\providecommand \pdfTeX {pdf\TeX}
+\providecommand \ConTeXt    {Con\TeX{}t}
+\providecommand \pdfTeX     {pdf\TeX}
+\providecommand \TeXLive    {\TeX\thinspace Live}
+\providecommand \MiKTeX     {Mik\TeX}
 
 \simplelogo {TeX}
 \simplelogo {LaTeX}
@@ -35,17 +37,21 @@
 \simplelogo {XeLaTeX}
 \simplelogo {ConTeXt}
 \simplelogo {pdfTeX}
+\simplelogo {MiKTeX}
+\simplelogo {TeXLive}
 
 \colorlet{code}{blue!80!black}
 \fvset{formatcom=\color{code}}
 \DefineShortVerb\©
+\catcode`\  10 % non-breakable space
 
-\newcommand*\email  [1] {\href{mailto:#1}{#1}}
+\newcommand*\email  [1] {<\href{mailto:#1}{#1}>}
 \newcommand*\ctan   [1] {\href{http://mirror.ctan.org/#1}{\nolinkurl{#1}}}
 \newcommand \file       {\nolinkurl}
 \newcommand*\note   [1] {\noindent\textsf{\bfseries #1.}\quad\ignorespaces}
 \newcommand \cmd        {\texttt}
-\newcommand \code   [1] {\texttt{\color{code}#1}}
+\newcommand \code   [1] {\texorpdfstring {\texttt{\color{code}#1}} {#1}}
+\newcommand*\cs     [1] {\code{\textbackslash #1}}
 
 \newcommandx*\para [2][2] {%
   \@ifmtarg{#2}{\para@{#1}{#1}}{\para@{#1}{#2}}}
@@ -90,3 +96,11 @@
 \newcommand \VK   {Vafa Khalighi\xspace}
 \newcommand \HH   {Hans Hagen\xspace}
 \newcommand \Taco {Taco Hoewater\xspace}
+
+\newenvironment{myquote}{%
+  \list{}{\leftmargin0pt \rightmargin1em}%
+  \item\relax
+  \small
+}{%
+\endlist
+}
