@@ -37,7 +37,7 @@
 
 \subsection{Other things you should know}\label{misc}
 
-\section{Essential packages}\label{essential}
+\section{Essential packages and practices}\label{essential}
 
 This section presents the packages you'll probably want to always load as a
 user, or that you should absolutely know about as a developer.
@@ -50,6 +50,28 @@ Nice interface to font management, well-integrated in to the \latex font
 selection scheme. Already presented in the previous section.
 
 \subsection{Developer-level}
+
+\subsubsection{Naming conventions}
+
+On the \tex end, control sequences starting with ©\luatex© are reserved for
+primitives. It is strongly recommended that you do \emph{not} define any such
+control sequence, to prevent name clashes with future versions of \luatex. If
+you want to a emphasize that a macro is specific to \luatex, we recommend that
+you use the ©\lua© prefix (without a following ©tex©) instead. It is okay to
+use the ©\luatex@© prefix for internal macros, since primitive names never
+contain ©@©, but it might be confusing. Moreover, you're already using a
+unique prefix for internal macros in all of your packages, aren't you?
+
+On the Lua end, please keep the global namespace as clean as possible. That
+is, use a table ©mypackage© and put all your public functions and objects in
+this table. You might want to use Lua's \href
+{http://www.lua.org/manual/5.1/manual.html#pdf-module} {\code{module()}}.
+Other strategies for Lua module management are discussed in \href
+{http://www.lua.org/pil/15.html} {chapter~15 of \emph{Programming in Lua}}.
+Also, it is probably a good idea to use ©local© for your internal variables
+and functions. Finally, to avoid clashes with future versions of \luatex, it
+is recommended to avoid modifying the namespaces of \luatex's default
+libraries.
 
 \subsubsection{Engine and mode detection}\label{detect}
 

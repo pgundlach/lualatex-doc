@@ -33,7 +33,8 @@
 \simplelogo {ConTeXt}
 \simplelogo {pdfTeX}
 
-\fvset{formatcom=\color{blue!80!black}}
+\colorlet{code}{blue!80!black}
+\fvset{formatcom=\color{code}}
 \DefineShortVerb\©
 
 \newcommand*\email  [1] {\href{mailto:#1}{#1}}
@@ -41,6 +42,7 @@
 \newcommand \file       {\nolinkurl}
 \newcommand*\note   [1] {\noindent\textsf{\bfseries #1.}\quad\ignorespaces}
 \newcommand \cmd        {\texttt}
+\newcommand \code   [1] {\texttt{\color{code}#1}}
 
 \newcommandx*\para [2][2] {%
   \@ifmtarg{#2}{\para@{#1}{#1}}{\para@{#1}{#2}}}
