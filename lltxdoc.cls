@@ -36,10 +36,11 @@
 \fvset{formatcom=\color{blue!80!black}}
 \DefineShortVerb\©
 
-\newcommand*\email [1] {\href{mailto:#1}{#1}}
-\newcommand*\ctan  [1] {\href{http://mirror.ctan.org/#1}{\nolinkurl{#1}}}
-\newcommand \file      {\nolinkurl}
-\newcommand*\note  [1] {\noindent\textsf{\bfseries #1.}\quad\ignorespaces}
+\newcommand*\email  [1] {\href{mailto:#1}{#1}}
+\newcommand*\ctan   [1] {\href{http://mirror.ctan.org/#1}{\nolinkurl{#1}}}
+\newcommand \file       {\nolinkurl}
+\newcommand*\note   [1] {\noindent\textsf{\bfseries #1.}\quad\ignorespaces}
+\newcommand \cmd        {\texttt}
 
 \newcommandx*\para [2][2] {%
   \@ifmtarg{#2}{\para@{#1}{#1}}{\para@{#1}{#2}}}
@@ -64,15 +65,16 @@
 \newcommand \pk {\pararef[\pf]}
 
 \newcommandx*\pkdesc [6][6] {%
-  \para                       {#1}
-  \pkditem {Engines}          {#3}
-  \pkditem {Formats}          {#4}          \\
-  \pkditem {Authors}          {#2}          \\
-  \pkditem {CTAN location}    {#5}[\ctan]   \@ifnotmtarg{#6}{\\}
-  \pkditem {Development url}  {#6}[\url]    \\
+  \para                             {#1}
+  \pkditem {Engines}                {#3}
+  \pkditem {Formats}                {#4}
+  \pkditem {Authors}            [\\]{#2}
+  \pkditem {CTAN location}      [\\]{#5}[\ctan]
+  \pkditem {Development url}    [\\]{#6}[\url]
+  \newline
 }
-\newcommandx*\pkditem [3][3] {\@ifnotmtarg{#2}{%
-    \textsf{\bfseries #1:} #3{#2}.%
+\newcommandx*\pkditem [4][2,4] {\@ifnotmtarg{#3}{%
+    #2\textsf{\bfseries #1:} #4{#3}.%
   }}
 
 \newcommand \WSPR {Will Robertson\xspace}

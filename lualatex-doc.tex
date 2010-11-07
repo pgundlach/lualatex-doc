@@ -56,21 +56,21 @@ selection scheme. Already presented in the previous section.
 Various packages allow to detect the engine currently processing the document.
 
 \pkdesc{ifluatex}{\HO}{all}{\latex, Plain}{%
-  macros/latex/contrib/oberdiek/ifluatex.dtx}
+  macros/latex/contrib/oberdiek/}
 Provides ©\ifluatex© and makes sure ©\luatexversion© is available.
 
 \pkdesc{iftex}{\VK}{all}{\latex, Plain}{%
-  macros/latex/contrib/iftex}[http://bitbucket.org/vafa/iftex]
+  macros/latex/contrib/iftex/}[http://bitbucket.org/vafa/iftex]
 Provides ©\ifPDFTeX©, ©\ifXeTeX©, ©\ifLuaTeX© and corresponding ©\Require©
 commands.
 
 \pkdesc{expl3}{The \LaTeX3 Project}{all}{\latex}{%
-  macros/latex/contrib/expl3}[http://www.latex-project.org/code.html]
+  macros/latex/contrib/expl3/}[http://www.latex-project.org/code.html]
 Amongst \emph{many} other things, provides ©\luatex_if_engine:TF©,
 ©\xetex_if_engine:TF© and their variants.
 
 \pkdesc{ifpdf}{\HO}{all}{\latex, Plain}{%
-  macros/latex/contrib/oberdiek/ifpdf.dtx}
+  macros/latex/contrib/oberdiek/}
 Provides ©\ifpdf© switch. \luatex, like \pdftex, can produce either PDF or DVI
 output; the later is not very useful with \luatex as it doesn't support any
 advanced feature such as Unicode and modern font formats. The ©\ifpdf© switch
@@ -80,7 +80,7 @@ that this doesn't include \xetex, whose support for PDF is different).
 \subsubsection{Basic resources}
 
 \pkdesc{luatexbase}{\ER \& \MPG}{\luatex}{\latex, Plain}{%
-  macros/luatex/generic/luatexbase}[https://github.com/mpg/luatexbase]
+  macros/luatex/generic/luatexbase/}[https://github.com/mpg/luatexbase]
 The Plain and \latex formats provide macros to manage \tex basic resources,
 such as count or box registers. \luatex introduces new resources that need to
 be shared gracefully by packages. This package provides the basic tools to
@@ -91,10 +91,10 @@ tools to handle a few compatibility issues with older version of \luatex.
 \note{Warning} This package is currently in conflict with the \pk{luatex}
 package, since they both do almost the same thing. The respective package
 authors are well aware of this situation and plan to somehow merge the two
-packages in the near future, though the timeline is not clear yet.
+packages in the near future, though the timeline is not clear.
 
 \pkdesc{luatex}{\HO}{\luatex}{\latex, Plain}{%
-  macros/latex/contrib/oberdiek/luatex.dtx}
+  macros/latex/contrib/oberdiek/}
 See the description of \pk{luatexbase} above. This package provides the same
 core features except for callback management and Lua module identification.
 
@@ -120,7 +120,7 @@ the system and the \tex distribution either by family name or by file name, as
 well as a font cache for faster loading.
 
 \pkdesc{euenc}{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
-  macros/latex/contrib/euenc}[https://github.com/wspr/euenc]
+  macros/latex/contrib/euenc/}[https://github.com/wspr/euenc]
 Implements the ©EUx© Unicode font encodings for \latex's \pk{fontenc} system.
 Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
 definitions (\file{fd} files) for Latin Modern, the default font loaded by
@@ -133,13 +133,13 @@ sequences for non-ASCII characters (such as ©\'e©) do the right thing.
 
 \subsection{User-level}
 
-\pkdesc{luatextra}{\MPG \& \ER}{\luatex}{\latex}{%
+\pkdesc{luatextra}{\ER \& \MPG}{\luatex}{\latex}{%
   macros/luatex/generic/luatextra/}[https://github.com/mpg/luatextra]
 Loads various useful packages such as \pk{luatexbase}, \pk{luaotfload},
 \pf{metalogo} (providing the ©\LuaTeX© and ©\LuaLaTeX© commands) and adds a
 few goodies, such as a ©luacode© environment.
 
-\pkdesc{luainputenc}{\MPG \& \ER}{\luatex, \xetex, \pdftex}{\latex}{%
+\pkdesc{luainputenc}{\ER \& \MPG}{\luatex, \xetex, \pdftex}{\latex}{%
   macros/luatex/latex/luainputenc/}[https://github.com/mpg/luainputenc]
 Helps compiling documents relying on legacy encodings (either in the source or
 with the fonts). Already presented in the introduction. When running \xetex,
@@ -151,19 +151,39 @@ just loads \pf{xetex-inputenc}; under \pdftex, loads the standard
 Provides a nice interface for the ©mplib© Lua library that embeds metapost in
 \luatex.
 
-\para{Luacolor}
+\pkdesc{luacolor}{\HO}{\luatex}{\latex}{%
+  macros/latex/contrib/oberdiek/}
+Changes low-level color implementation to use \luatex attributes in place of
+whatsits. This makes the implementation more robust and fixes strange bugs
+such as wrong alignment when ©\color© happens at the beginning of a ©\vbox©.
 
-\para{Luadirections}
+\pkdesc{luadirections}{\KH}{\luatex}{\latex, Plain, \context}{}
+[https://github.com/khaledhosny/luadirections]
+Higher-level interface to \luatex's multi-directional support. Currently not
+released on CTAN.
 
 \subsection{Developer-level}
 
-\para{Pdftexcmds}
+\pkdesc{pdftexcmds}{\HO}{\luatex, \pdftex, \xetex}{\latex, Plain}{%
+  macros/latex/contrib/oberdiek/}
+Though \luatex is mostly a superset of \pdftex, a few utility primitives were
+removed (those that are sort of superseded by Lua) or renamed. This package
+provides them with consistent names across engines, including \xetex which
+recently implemented some of these primitives, such as ©\strcmp©.
 
-\para{Magicnum}
+\pkdesc{magicnum}{\HO}{\luatex, \pdftex, \xetex}{\latex, Plain}{%
+  macros/latex/contrib/oberdiek/}
+Provides hierarchical access to ``magic numbers'' such as catcodes, group
+types, etc. used internally by \tex and its successors. Under \luatex, a more
+efficient implementation is used and a Lua interface is provided.
 
-\para{Lua-alt-getopt}
+\pkdesc{lua-alt-getopt}{Aleksey Cheusov}{\cmd{texlua}}{command-line}{%
+  support/lua/lua-alt-getopt}[http://luaforge.net/project/lua_altgetopt]
+Command-line option parser, mostly compatible with POSIX and GNU getopt, to be
+used in command-line Lua scripts such as \cmd{mkluatexfontdb} from
+\pk{luaotfload}.
 
-\section{The luatex and lualatex formats}\label{formats}
+\section{The \cmd{luatex} and \cmd{lualatex} formats}\label{formats}
 
 \section{Things that Just Work, partially work, or don't work (yet)}
 \label{workornot}
@@ -173,7 +193,7 @@ Provides a nice interface for the ©mplib© Lua library that embeds metapost in
 \subsection{Partially working}\label{partial}
 
 \para{microtype}
-Package \pf{microtype} has limited support for \luatex: mor precisely, as of
+Package \pf{microtype} has limited support for \luatex: more precisely, as of
 version 2.4 2010/01/10, protrusion and expansion are available and activated
 by default in PDF mode, but kerning, spacing and tracking are not supported
 (sse table~1 in section~3.1 of \file{microtype.pdf}).
