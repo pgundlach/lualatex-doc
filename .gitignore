@@ -1,6 +1,12 @@
+# temporary
 .*.swp
 *.log
 *.aux
 *.log
-*.pdf
 *.toc
+*.fdb_latexmk
+
+# targets
+*.pdf
+*.zip
+README

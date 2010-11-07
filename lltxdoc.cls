@@ -1,3 +1,6 @@
+% private class for lualatex-doc
+% see lualatex-doc.tex for copying conditions
+
 \ProvidesClass{lltxdoc}
 
 \LoadClass[a4paper]{scrartcl}
