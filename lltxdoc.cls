@@ -39,23 +39,42 @@
 \newcommand*\email [1] {\href{mailto:#1}{#1}}
 \newcommand*\ctan  [1] {\href{http://mirror.ctan.org/#1}{\nolinkurl{#1}}}
 \newcommand \file      {\nolinkurl}
+\newcommand*\note  [1] {\noindent\textsf{\bfseries #1.}\quad\ignorespaces}
+
+\newcommandx*\para [2][2] {%
+  \@ifmtarg{#2}{\para@{#1}{#1}}{\para@{#1}{#2}}}
+\newcommand \para@ [2] {%
+  \par \medskip
+  \hypertarget{para.#2}{}%
+  \belowpdfbookmark{#1}{para.#2}%
+  \noindent
+  \label{para.#2}%
+  \makebox [0pt][r] {%
+    \textsf{\bfseries #1\quad}}%
+  \ignorespaces
+}
+\newcommandx*\pararef [3][1, 3] {%
+  \@ifmtarg{#3}{\para@ref{#1}{#2}{#2}}{\para@ref{#1}{#2}{#3}}}
+\newcommand \para@ref [3] {%
+  \hyperlink{para.#3}{#1{#2}}}
+\newcommand*\parapageref [1] {%
+  \autopagref{para.#1}}
 
 \newcommand \pf {\textsf}
+\newcommand \pk {\pararef[\pf]}
 
-\newcommandx*\pditem [3][3] {\@ifnotmtarg{#2}{%
-    \linebreak[3]%
+\newcommandx*\pkdesc [6][6] {%
+  \para                       {#1}
+  \pkditem {Engines}          {#3}
+  \pkditem {Formats}          {#4}          \\
+  \pkditem {Authors}          {#2}          \\
+  \pkditem {CTAN location}    {#5}[\ctan]   \@ifnotmtarg{#6}{\\}
+  \pkditem {Development url}  {#6}[\url]    \\
+}
+\newcommandx*\pkditem [3][3] {\@ifnotmtarg{#2}{%
     \textsf{\bfseries #1:} #3{#2}.%
   }}
-\newcommandx*\pkgdesc [6][1, 6] {%
-  \par\noindent
-  \pditem {Name}            {#1}
-  \pditem {Authors}         {#2}
-  \pditem {Engines}         {#3}
-  \pditem {Formats}         {#4}
-  \pditem {CTAN location}   {#5}[\ctan]
-  \pditem {Development url} {#6}[\url]
-  \newline
-}
+
 \newcommand \WSPR {Will Robertson\xspace}
 \newcommand \KH   {Khaled Hosny\xspace}
 \newcommand \HO   {Heiko Oberdiek\xspace}
