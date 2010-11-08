@@ -464,9 +464,6 @@ Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
 definitions (\file{fd} files) for Latin Modern, the default font loaded by
 \pk{fontspec}.
 
-Also includes a stripped version of \pf{xunicode} so that the usual control
-sequences for non-ASCII characters (such as ©\'e©) do the right thing.
-
 
 \section{Other packages}\label{other}
 
@@ -646,9 +643,9 @@ interface.
 Package \pf{xunicode}'s main feature is to ensure that the usual control
 sequences for non-ASCII characters (such as ©\'e©) do the right thing in a
 Unicode context. It could \emph{probably} work with \luatex, but explicitly
-checks for \xetex only. Since \pk{euenc}, loaded by \pk{fontspec}, includes a
-modified version of this package, you usually don't need \pf{xunicode} so this
-is not a problem.
+checks for \xetex only. However, \pk{fontspec} uses a trick to load it anyway.
+So, you can't load it explicitly, but you don't need to, since \pk{fontspec}
+already took care of it.
 
 \subsection{Not working (yet)}\label{notworking}
 
