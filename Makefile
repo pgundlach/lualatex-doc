@@ -4,7 +4,7 @@ SRC    = $(NAME).tex
 README = README
 MKD    = $(README).markdown
 
-ALLSRC = $(SRC) Makefile
+ALLSRC = $(SRC) Makefile lltxdoc.cls
 ALLGEN = $(DOC) $(README)
 ALL    = $(ALLGEN) $(ALLSRC)
 FORMAT = lualatex
