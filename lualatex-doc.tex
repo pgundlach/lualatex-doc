@@ -294,7 +294,7 @@ I'm sorry if the last three paragraphs were a bit \tex{}nical in nature but
 I thought you had to know. To reward you for staying with me, here is a
 debugging trick. Put the following code near the beginning of your document:
 \begin{Verbatim}
-  \newrite\luadebug
+  \newwrite\luadebug
   \immediate\openout\luadebug luadebug.lua
   \AtEndDocument{\immediate\closeout\luadebug}
   \newcommand\directluadebug{\immediate\write\luadebug}
