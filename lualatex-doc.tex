@@ -225,7 +225,7 @@ argument. Conversely, you can pass information from Lua to \tex with
 ©tex.sprint©.\footnote{The name probably means ``string print'' as opposed to
   ``run very fast for a short period of time.''} For example,
 \begin{Verbatim}
-  the standard approximation $\pi = \direclua{tex.sprint(math.pi)}$
+  the standard approximation $\pi = \directlua{tex.sprint(math.pi)}$
 \end{Verbatim}
 prints ``the standard  approximation $\pi = \directlua{tex.sprint(math.pi)}$''
 in your document. See how easy it is to mix \tex and Lua?
@@ -253,7 +253,7 @@ you don't know about catcodes, just skip this paragraph.\footnote{Erf, too
 
 \medskip
 
-Let's look at ©\direclua© now. To get an idea about how it works, imagine that
+Let's look at ©\directlua© now. To get an idea about how it works, imagine that
 it's a ©\write© command, but it writes only to a virtual file and immediately
 arranges for this file to be fed to the Lua interpreter. On the Lua end, the
 consequence is that each argument of a ©\directlua© command has its own scope:
