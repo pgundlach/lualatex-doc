@@ -617,15 +617,14 @@ implementation of the workaround.
 Conventional \latex offers some level of support for UTF-8 in input files.
 However, at a low level, non-ASCII characters are not atomic in this case:
 they consist of several elementary pieces (known as \emph{tokens} to
-\tex{}nicians). Hence, packages that scan text character by character
-often have problems with UTF-8 in conventional \latex. Such packages include:
-\pf{fancyvrb}, \pf{listings}, \pf{soul} and probably others.
+\tex{}nicians). Hence, some packages that scan text character by character or
+do other atomic operations on characters (such as changing their catcodes)
+often have problems with UTF-8 in conventional \latex. For example, you can't
+use any non-ASCII character for short verbatim with \pf{fancyvrb}, etc.
 
-The good new is, with \lualatex, these packages start working on arbitrary
-Unicode characters without even being modified. (Disclaimer: I didn't run
-thorough tests, but I'm pretty sure they do.) You don't need to use tricky
-wrapper packages such as \pf{listingsutf8} or \pf{soulutf8} (they won't work
-with \luatex, anyway).
+The good news is, with \lualatex, some of these package's features start
+working on arbitrary Unicode characters without needing to modify the package.
+The bad news is, this isn't always true. Se the next section for details.
 
 \subsection{Partially working}\label{partial}
 
@@ -647,6 +646,14 @@ checks for \xetex only. However, \pk{fontspec} uses a trick to load it anyway.
 So, you can't load it explicitly, but you don't need to, since \pk{fontspec}
 already took care of it.
 
+\para{encodings}
+As mentioned in the above section, a few things that were problematic with
+UTF-8 on conventional \latex spontaneously works, but not always. For example,
+with the \pf{listings} package on \lualatex, you may use only characters below
+256 (that is, characters from the Latin-1 set), inside your listings (but of
+course the full Unicode range is still available in the rest of your
+document).
+
 \subsection{Not working (yet)}\label{notworking}
 
 \para{old encodings}[oldenco] Packages playing with input (source files) or
@@ -656,6 +663,11 @@ packages were trying to solve, so you most likely don't need these packages
 anyway. However, not everything is already ported to the shiny new world of
 Unicode, so you may have a more limited (or just different) set of choices
 available for some time (this is especially true for fonts).
+
+\para{soul} The \pf{soul} package uses a clever trick with a monospaced font
+to count characters. However, due to differences in font handling (and maybe a
+bug in \luatex), this doesn't work yet with character above 256 (that is,
+outside the Latin-1 set).
 
 \para{spaces} Spaces in file names are not really well supported in the \tex
 world in general. This doesn't really get better with \luatex. Also, due to
