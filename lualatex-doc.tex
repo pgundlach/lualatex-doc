@@ -26,7 +26,8 @@
   sources, gathers information that is otherwise scattered, and adds
   introductory material.
 
-  Feedback and suggestions for improvement are most welcome.
+  Feedback and suggestions for improvement are most welcome. This document is
+  work in progress; thanks for your comprehension and patience.
 \end{abstract}
 
 \vspace{\stretch{1}}
@@ -607,6 +608,18 @@ For more details, see
 on the \luatex mailing lists, and \file{lualatexquotejobname.tex} for the
 implementation of the workaround.
 
+\para{babel}
+\luatex offers dynamic loading for hyphenation patterns. There is
+currently no support for this in \pf{babel} but some files have been modified
+to provide semi-dynamic loading, to achieve a better loading time of the
+format. More about this later.
+
+\para{codes}
+The engine itself does not set catcodes, lccodes and uccodes for non-ASCII
+characters. This was added in the format after \texlive 2010 went out. You are
+strongly advised to update your installation if you want to enjoy proper
+hyphenation for non-ASCII text. More about this later.
+
 
 \section{Things that just work, partially work, or don't work (yet)}
 \label{workornot}
@@ -653,6 +666,26 @@ with the \pf{listings} package on \lualatex, you may use only characters below
 256 (that is, characters from the Latin-1 set), inside your listings (but of
 course the full Unicode range is still available in the rest of your
 document).
+
+\para{metrics}
+This item isn't exactly about working or not working, but rather about not
+working in exactly the same way as \pdftex or \xetex: you may observe minor
+differences in the layout and hyphenation of you text. They may be due minor
+variations between two versions of the same font used by the various engines,
+or to subtle adjustments made to the hyphenation, or kerning algorithms. If
+you ever observe a major difference between pdf\latex and \lualatex with the
+same fonts, it is not at all unlikely that a bug of \luatex or in the font is
+involved.
+
+\par{babel}
+Short version: working mostly without problems for Latin languages. For other
+languages, your mileage may vary. A more modern, but less complete, package
+for multilingual support, \pf{polyglossia} is available for \xelatex but is
+not ported to \lualatex yet.
+
+Long version: erf, actually I don't know the details yet. I'll try to gather
+more information and update this paragraph. Please let me know if you have
+experience or knowledge to share in this domain.
 
 \subsection{Not working (yet)}\label{notworking}
 
