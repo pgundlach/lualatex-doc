@@ -113,10 +113,10 @@ for advanced PDF features and micro-typographic enhancements to \tex
 typographic algorithms. The main new features of \luatex are:
 \begin{enumerate}
   \item Native support of Unicode, the modern standard for character
-    classification and encoding, supporting all scripting systems of the
-    world, from English to traditional Chinese, including a huge lot a
+    classification and encoding, supporting all characters in the world, from
+    English to traditional Chinese through Arabic, including a lot a
     mathematical (or otherwise specialised) symbols.
-  \item Inclusion of Lua as a embedded scripting languages (see
+  \item Inclusion of Lua as an embedded scripting language (see
     section~\ref{luaintex} for details).
   \item A lot of wonderful Lua libraries, including:
     \begin{itemize}
@@ -139,9 +139,60 @@ provide you with more powerful commands and other enhancements.
 As the previous section explains, \lualatex is mostly like \latex, with a few
 differences, and more powerful packages and tools available. Here we present
 absolute minimum you should know to produce a document with \lualatex, while
-the rest of the documents provides more details about the available packages.
+the rest of the document provides more details about the available packages.
 
+There are only three differences:
+\begin{enumerate}
+  \item Don't load \pf{inputenc}, just encode your source in UTF-8.
+  \item Don't load \pf{fontenc}, but load \pf{fontspec}.
+  \item Don't use any package that changes the fonts, but use \pf{fontspec}'s
+    commands instead.
+\end{enumerate}
+So, you only need to get familiar with \pf{fontspec}, which is
+easy: select the main (serif) font with ©\setmainfont©, the sans serif font
+with ©\setsansfont© and the mono-spaced (typewriter) font with ©\setmonofont©.
+The argument to these commands is the human-friendly name of the font, for
+example ©Latin modern Roman© rather than ©ec-lmr10©. You probably want to use
+©\defaultfontfeatures{Ligatures=TeX}© before these commands to keep the usual
+\tex substitutions (such as ©---© for an em-dash) working.
 
+The good news is: you can directly access any font on your operating system
+(in addition to those of your \tex distribution) including TrueType and
+OpenType fonts and have access to their most advanced features. It means it
+is now easy to install for use with \lualatex any modern font you may download
+or purchase from an editor and benefit from their full potential.
+
+Now for the bad news: it is not always easy to get a list of all available
+fonts. Under Windows with TeX Live, the command-line tool \cmd{fc-list} lists
+them all, but is not very friendly. Under Mac OS X, the \emph{Fontbook}
+application lists the fonts of your system, but not those of your
+distribution. Same with \cmd{fc-list} on Linux. More bad news: it is not easy
+to access your old fonts that way. Happily, more fonts are available in modern
+formats every day (well, month or year, actually, if you count only good
+fonts).
+
+\emph{En passant}, let's mention that the content of this section so far also
+holds for \xelatex, that is, \latex over \xetex. Indeed, \xetex shares two of
+the essential features of \luatex: native Unicode and support for modern font
+formats (but doesn't have the other features of \luatex; on the other hand, it
+is more stable right now). Though their implementations concerning fonts are
+vastly different, \pf{fontspec} manages to offer a mostly unified font
+interface for both \xelatex and \lualatex.
+
+So, to benefit from the new features of \luatex, you must drop a few parts of
+the old world, namely the fonts that are not available in a modern format (and
+also the liberty to encode your source how you want, but UTF-8 is so much
+superior that this one hardly counts). The package \pk{luainputenc} provides
+various trade-offs that allow you to regain these parts\footnote{While the
+  name suggests it is only about input encodings, the details of \latex's font
+  encoding implementation imply this package is needed (and works) for old
+  fonts too.} possibly at the expense of loosing real Unicode support.
+
+That's all you need to know to start producing documents with \lualatex. I
+recommend you have a look at the \pf{fontspec} manual and actually try to
+compile a small document using funny fonts. You can then skim over the rest of
+this document as you wish. Section~\ref{workornot} lists all the other
+differences between conventional \latex and \lualatex that I'm aware of.
 
 \subsection{A Lua-in-\tex primer}\label{luaintex}
 
