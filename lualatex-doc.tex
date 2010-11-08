@@ -84,7 +84,7 @@ mode.
                 &  \cell{etex}{pdftex}
                 &  \cell{}{xetex}
                 &  \cell{dviluatex}{luatex}
-    \\
+    \\ \hline
     \latex
                 &  \cell{}{}
                 &  \cell{latex}{pdflatex}
@@ -98,7 +98,9 @@ We can now answer the title question: \lualatex is the \luatex engine with the
 \latex format. Well, this answer isn't very satisfying if you don't know what
 \luatex and \latex are.
 
-As you probably know, \latex is the general frameworks
+\medskip
+
+As you probably know, \latex is the general framework
 in which documents begin with ©\documentclass©, packages are loaded with
 ©\usepackage©, fonts are selected in a clever way (so that you can switch to
 boldface while preserving italics), pages are build with complicated algorithm
@@ -163,7 +165,7 @@ is now easy to install for use with \lualatex any modern font you may download
 or purchase from an editor and benefit from their full potential.
 
 Now for the bad news: it is not always easy to get a list of all available
-fonts. Under Windows with TeX Live, the command-line tool \cmd{fc-list} lists
+fonts. Under Windows with \texlive, the command-line tool \cmd{fc-list} lists
 them all, but is not very friendly. Under Mac OS X, the \emph{Fontbook}
 application lists the fonts of your system, but not those of your
 distribution. Same with \cmd{fc-list} on Linux. More bad news: it is not easy
@@ -178,6 +180,8 @@ formats (but doesn't have the other features of \luatex; on the other hand, it
 is more stable right now). Though their implementations concerning fonts are
 vastly different, \pf{fontspec} manages to offer a mostly unified font
 interface for both \xelatex and \lualatex.
+
+\medskip
 
 So, to benefit from the new features of \luatex, you must drop a few parts of
 the old world, namely the fonts that are not available in a modern format (and
@@ -196,7 +200,139 @@ differences between conventional \latex and \lualatex that I'm aware of.
 
 \subsection{A Lua-in-\tex primer}\label{luaintex}
 
+Lua is a nice, small language, obviously less surprising and much easier to
+learn than \tex as a programming language. The essential reference is the very
+readable book \emph{Programming in Lua}, whose first edition is freely
+\href{http://www.lua.org/pil/} {available online}. For a quick start, I
+recommend you read chapters~1 to~5 and have a quick glance at part~3. Note
+that all the libraries mentioned in chapter~3 are included in \luatex, but the
+©os© library is restricted for security reasons.
+
+Depending on your programming culture, you may be directly interested in the
+rest of part~1 and part~2 which present more advanced features of the
+language, but part~4 is useless in a \luatex context, unless of course you
+want to hack \luatex itself. Finally, the \emph{Lua reference manual} is
+\href{http://www.lua.org/manual/}{available online in various languages} and
+comes with a handy index.
+
+\medskip
+
+Now, let's turn to Lua in \luatex. The main way to execute Lua code from the
+\tex end is the ©\directlua© command, which takes arbitrary Lua code as an
+argument. Conversely, you can pass information from Lua to \tex with
+©tex.sprint©.\footnote{The name probably means ``string print'' as opposed to
+  ``run very fast for a short period of time.''} For example,
+\begin{Verbatim}
+  the standard approximation $\pi = \direclua{tex.sprint(math.pi)}$
+\end{Verbatim}
+prints ``the standard  approximation $\pi = \directlua{tex.sprint(math.pi)}$''
+in your document. See how easy it is to mix \tex and Lua?
+
+Actually, there are a few gotchas. Let's look at the Lua to \tex way first,
+it's the simplest (since it's more Lua than \tex). If you look at the \luatex
+manual, you'll see there is another function with a simpler name, ©tex.print©,
+to pass information this way. It works by virtually inserting a full line into
+you \tex source, whose contents are its argument. In case you didn't know,
+\tex does all kinds of nasty\footnote{Okay, these are usually nice and helpful
+  actions, but it this case they are most probably unexpected so I call them
+  nasty.} things with full lines of the source, like
+ignoring spaces at the beginning and end of line and appending an end-of-line
+character. Most of the time, you don't want this to happen, so I recommend
+using ©tex.sprint© which virtually inserts its argument in the current line,
+so is much more predictable.
+
+If you're enough of a \tex{}nician to know about catcodes, you'll be happy to
+know that ©tex.print© and its variants give you nearly full control over the
+catcodes used for tokenizing the argument, since you can specify a catcode
+table as the first argument. You'll probably want to learn about catcode
+tables (currently~2.7.6 in the \luatex manual) before you're fully happy. If
+you don't know about catcodes, just skip this paragraph.\footnote{Erf, too
+  late, you already read it.}
+
+\medskip
+
+Let's look at ©\direclua© now. To get an idea about how it works, imagine that
+it's a ©\write© command, but it writes only to a virtual file and immediately
+arranges for this file to be fed to the Lua interpreter. On the Lua end, the
+consequence is that each argument of a ©\directlua© command has its own scope:
+local variables from one will not be visible to the other. (Which is rather
+sane, but always good to know.)
+
+Now, the major gotcha is that before being fed to the Lua interpreter, the
+argument is first read and tokenised by \tex, then fully expanded and turned
+back into a plain string. Being read by \tex has several consequences. One of
+them is that end of lines are turned into spaces, so the Lua interpreter sees
+only one (long) line of input. Since Lua is a free-from language, it doesn't
+usually matter, but it does if you use comments:
+\begin{Verbatim}
+  \directlua{a_function()
+    -- a comment
+    another_function()}
+\end{Verbatim}
+won't do what you probably expect: ©another_function()© will be seen as part
+of the comment (it's only one line, remember).
+
+Another consequence of being read by \tex is that successive spaces are merged
+into one space, and \tex comments are discarded. So, here is a surprisingly
+correct version of the previous example.
+\begin{Verbatim}
+  \directlua{a_function()
+    % a comment
+    another_function()}
+\end{Verbatim}
+It is also worth noticing that, since since the argument basically is inside a
+©\write©, it's in expansion-only context. If you don't know what it means, let
+me say that expansion issues are mostly what makes \tex programming so
+difficult to avoid expanding further on that matter.
+
+\medskip
+
+I'm sorry if the last three paragraphs were a bit \tex{}nical in nature but
+I thought you had to know. To reward you for staying with me, here is a
+debugging trick. Put the following code near the beginning of your document:
+\begin{Verbatim}
+  \newrite\luadebug
+  \immediate\openout\luadebug luadebug.lua
+  \AtEndDocument{\immediate\closeout\luadebug}
+  \newcommand\directluadebug{\immediate\write\luadebug}
+\end{Verbatim}
+Then, when you have a hard time understanding why a particular call to
+©\directlua© doesn't do what you expect, replace this instance of the command
+with ©\directluadebug©, compile as usual and look in the file
+\file{luadebug.lua} produced what the Lua interpreter actually read.
+
+For everything but trivial pieces of Lua code, it is much wiser to use an
+external file containing only Lua code defining functions, then load it and
+use its functions. For example:
+\begin{Verbatim}
+  \directlua{dofile("my-lua-functions.lua")}
+  \newcommand*{\greatmacro}[2]{%
+    \directlua{my_great_function("\luatexluaescapestring{#1}", #2)}}
+\end{Verbatim}
+The example assumes that ©my_great_function© takes a string and a number as
+arguments. Notice that we carefully use the ©\luatexluaescapestring© primitives
+on the string argument to escape any backslash or double-quote it might contain
+and which would confuse the Lua parser.\footnote{If you ever used SQL
+  then the concept of escaping strings is hopefully not new to you.}
+
+\medskip
+
+That's all concerning Lua in \tex. If you're wondering why
+©\luatexluaescapestring© has such a long and silly name, you might want to
+read the next section.
+
 \subsection{Other things you should know}\label{things}
+
+Just in case it isn't obvious, the \luatex manual, \file{luatexref-t.pdf}, is
+a great source of information about \luatex and you'll probably want to
+consult it at some point (though it is a bit arid and technical).
+
+It is important to know that the name of the new primitives of \luatex as you
+read them in the manual are not the actual names you'll be able to use in
+\lualatex. To prevent clashes with existing macro names, all new primitives
+have been prefixed with ©\luatex© unless they already start with it, so
+©\luaescapestring© becomes ©\luatexluaescapetring© while ©\luatexversion©
+remains ©\luatexversion©. The rationale is detailed in section~\ref{formats}.
 
 
 \section{Essential packages and practices}\label{essential}
@@ -320,9 +456,9 @@ sequences for non-ASCII characters (such as ©\'e©) do the right thing.
 
 \pkdesc{luatextra}{\ER \& \MPG}{\luatex}{\latex}{%
   macros/luatex/generic/luatextra/}[https://github.com/mpg/luatextra]
-Loads various useful packages such as \pk{luatexbase}, \pk{luaotfload},
-\pf{metalogo} (providing the ©\LuaTeX© and ©\LuaLaTeX© commands) and adds a
-few goodies, such as a ©luacode© environment.
+Loads various packages such as \pk{luatexbase}, \pk{luaotfload}, \pf{metalogo}
+(providing the ©\LuaTeX© and ©\LuaLaTeX© commands) and adds a few goodies,
+such as a ©luacode© environment.
 
 \pkdesc{luainputenc}{\ER \& \MPG}{\luatex, \xetex, \pdftex}{\latex}{%
   macros/luatex/latex/luainputenc/}[https://github.com/mpg/luainputenc]

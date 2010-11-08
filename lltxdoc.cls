@@ -5,7 +5,8 @@
 
 \LoadClass[a4paper]{scrartcl}
 \RequirePackage{fontspec}
-\RequirePackage{xcolor, metalogo, xspace, ifmtarg, xargs, fancyvrb}
+\RequirePackage{metalogo, xspace, ifmtarg, xargs, fancyvrb}
+\RequirePackage[table]{xcolor}
 \RequirePackage[english]{babel}
 \RequirePackage[colorlinks=true]{hyperref}
 \RequirePackage{bookmark}
