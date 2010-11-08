@@ -449,12 +449,13 @@ may need to know about them.
 
 \pkdesc{luaotfload}{\ER \& \KH}{\luatex}{\latex, Plain}{%
   macros/luatex/generic/luaotfload/}[https://github.com/khaledhosny/luaotfload]
-Low-level OpenType font loading. Basically, it uses the ©fontloader© Lua
-library and the appropriate callbacks to implement a syntax for the ©\font©
-primitive very similar to that of \xetex and implement the corresponding font
-features. It also handles a font database for transparent access to fonts from
-the system and the \tex distribution either by family name or by file name, as
-well as a font cache for faster loading.
+Low-level OpenType font loading, adapted from the generic subset of \context.
+Basically, it uses the ©fontloader© Lua library and the appropriate callbacks
+to implement a syntax for the ©\font© primitive very similar to that of \xetex
+and implement the corresponding font features. It also handles a font database
+for transparent access to fonts from the system and the \tex distribution
+either by family name or by file name, as well as a font cache for faster
+loading.
 
 \pkdesc{euenc}{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
   macros/latex/contrib/euenc/}[https://github.com/wspr/euenc]
