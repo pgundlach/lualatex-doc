@@ -110,7 +110,8 @@ material, etc. This mostly doesn't change with \lualatex, but new and more
 powerful packages are available to make parts of the system work in a better
 way.
 
-Let's look at \luatex now. It is the designated successor of \pdftex and
+So, what's \luatex? Short version: the hottest \tex engine right now!
+Long version: It is the designated successor of \pdftex and
 includes of all its core features: direct generation of PDF files with support
 for advanced PDF features and micro-typographic enhancements to \tex
 typographic algorithms. The main new features of \luatex are:
@@ -310,11 +311,12 @@ use its functions. For example:
   \newcommand*{\greatmacro}[2]{%
     \directlua{my_great_function("\luatexluaescapestring{#1}", #2)}}
 \end{Verbatim}
-The example assumes that ©my_great_function© takes a string and a number as
-arguments. Notice that we carefully use the ©\luatexluaescapestring© primitives
-on the string argument to escape any backslash or double-quote it might contain
-and which would confuse the Lua parser.\footnote{If you ever used SQL
-  then the concept of escaping strings is hopefully not new to you.}
+The example assumes that ©my_great_function© is defined in
+©my-lua-functions.lua© and takes a string and a number as arguments. Notice
+that we carefully use the ©\luatexluaescapestring© primitives on the string
+argument to escape any backslash or double-quote it might contain and which
+would confuse the Lua parser.\footnote{If you ever used SQL then the concept
+  of escaping strings is hopefully not new to you.}
 
 \medskip
 
@@ -334,6 +336,20 @@ read them in the manual are not the actual names you'll be able to use in
 have been prefixed with ©\luatex© unless they already start with it, so
 ©\luaescapestring© becomes ©\luatexluaescapetring© while ©\luatexversion©
 remains ©\luatexversion©. The rationale is detailed in section~\ref{formats}.
+
+\medskip
+
+Oh, and by the way, did I mention that \luatex is in beta and version 1.0 is
+expected in late 2012? You can learn more on the roadmap page of
+\href{http://luatex.org/}{the \luatex site}. Stable betas are released
+regularly and are included in \texlive since 2008 and \miktex since 2.9.
+
+Not surprisingly, support for \luatex in \latex is shiny new, which means it
+may be full of (shiny) bugs, and things may change at any point. You might
+want to keep your \tex distribution very up-to-date\footnote{For \texlive,
+  consider using the complementary
+  \href{http://tlcontrib.metatex.org/} {tlcontrib} repository.} and also avoid
+using \lualatex for critical documents at least for some time.
 
 
 \section{Essential packages and practices}\label{essential}
