@@ -265,7 +265,7 @@ Now, the major gotcha is that before being fed to the Lua interpreter, the
 argument is first read and tokenised by \tex, then fully expanded and turned
 back into a plain string. Being read by \tex has several consequences. One of
 them is that end of lines are turned into spaces, so the Lua interpreter sees
-only one (long) line of input. Since Lua is a free-from language, it doesn't
+only one (long) line of input. Since Lua is a free-form language, it doesn't
 usually matter, but it does if you use comments:
 \begin{Verbatim}
   \directlua{a_function()
