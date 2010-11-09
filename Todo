@@ -2,3 +2,11 @@
 - packages related to encodings, like soul, listings & fancyvrb:
 get my ideas clear on that matter and rework the correspoding paragraphs.
 See mail from Ulrike.
+
+- expand on babel/polyglossia & non-latin languages
+
+- expand stub paragraphs in the formats section
+
+- investigate " appear always a right quotes in \tt
+
+- investgate missing bold with libertine
