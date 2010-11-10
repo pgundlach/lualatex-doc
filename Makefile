@@ -25,10 +25,10 @@ ctan: $(NAME).tds.zip -q
 
 $(NAME).tds.zip -q: $(ALLGEN) $(ALLSRC)
 	@rm -rf texmf
-	@mkdir -p texmf/doc/$(FORMAT)
-	@cp $(ALLGEN) texmf/doc/$(FORMAT)
-	@mkdir -p texmf/source/$(FORMAT)
-	@cp $(ALLSRC) texmf/source/$(FORMAT)
+	@mkdir -p texmf/doc/$(FORMAT)/$(NAME)
+	@cp $(ALLGEN) texmf/doc/$(FORMAT)/$(NAME)
+	@mkdir -p texmf/source/$(FORMAT)/$(NAME)
+	@cp $(ALLSRC) texmf/source/$(FORMAT)/$(NAME)
 	@cd texmf && zip -q -r ../$(NAME).tds.zip .
 	@rm -rf texmf
 
