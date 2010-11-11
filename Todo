@@ -9,10 +9,6 @@ See mail from Ulrike.
 
 - investigate why " appears always as right quotes in \tt
 
-- investigate missing bold with libertine
-
-- mention luacode ^^
-
 - maybe expand/rework \para{metrics}: (via Stephan)
     - 1st word of a par, font changes are not word boundaries
     - ligatures??? (6.5 of the manual - but does luaotfload change it?)

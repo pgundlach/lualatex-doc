@@ -305,9 +305,11 @@ Then, when you have a hard time understanding why a particular call to
 with ©\directluadebug©, compile as usual and look in the file
 \file{luadebug.lua} produced what the Lua interpreter actually read.
 
-For everything but trivial pieces of Lua code, it is much wiser to use an
-external file containing only Lua code defining functions, then load it and
-use its functions. For example:
+The \pk{luacode} package provides commands and environments that help to
+varying degrees with some of these problems. Hoewever, for everything but
+trivial pieces of Lua code, it is wiser to use an external file containing
+only Lua code defining functions, then load it and use its functions. For
+example:
 \begin{Verbatim}
   \directlua{dofile("my-lua-functions.lua")}
   \newcommand*{\greatmacro}[2]{%
@@ -469,13 +471,20 @@ definitions (\file{fd} files) for Latin Modern, the default font loaded by
 
 \section{Other packages}\label{other}
 
+Note that the packages are not listed in any particular order.
+
 \subsection{User-level}
 
 \pkdesc{luatextra}{\ER \& \MPG}{\luatex}{\latex}{%
-  macros/luatex/generic/luatextra/}[https://github.com/mpg/luatextra]
-Loads various packages such as \pk{luatexbase}, \pk{luaotfload}, \pf{metalogo}
-(providing the ©\LuaTeX© and ©\LuaLaTeX© commands) and adds a few goodies,
-such as a ©luacode© environment.
+  macros/luatex/latex/luatextra/}[https://github.com/mpg/luatextra]
+Loads usual packages, currently \pk{fontspec}, \pk{luacode}, \pf{metalogo}
+(providing ©\LuaTeX© and ©\LuaLaTeX©), \pk{luatexbase}, \pk{lualibs},
+\pf{fixltx2e} (fixes and enhancements for the \latex core).
+
+\pkdesc{luacode}{\MPG}{\luatex}{\latex}{%
+  macros/luatex/latex/luacode/}[https://github.com/mpg/luacode]
+Provides commands and macros that help including Lua code in a \tex source,
+especially concerning special characters.
 
 \pkdesc{luainputenc}{\ER \& \MPG}{\luatex, \xetex, \pdftex}{\latex}{%
   macros/luatex/latex/luainputenc/}[https://github.com/mpg/luainputenc]
