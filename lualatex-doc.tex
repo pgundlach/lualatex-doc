@@ -355,6 +355,11 @@ want to keep your \tex distribution very up-to-date\footnote{For \texlive,
   \href{http://tlcontrib.metatex.org/} {tlcontrib} repository.} and also avoid
 using \lualatex for critical documents at least for some time.
 
+As a general rule, this guide documents things as they are at the time it is
+written or updated, without keeping track of changes. Hopefully, you'll update
+your distribution as a whole so that you always get matching versions of this
+guide and the packages, formats and engine it describes.
+
 
 \section{Essential packages and practices}\label{essential}
 
@@ -478,8 +483,8 @@ Note that the packages are not listed in any particular order.
 \pkdesc{luatextra}{\ER \& \MPG}{\luatex}{\latex}{%
   macros/luatex/latex/luatextra/}[https://github.com/mpg/luatextra]
 Loads usual packages, currently \pk{fontspec}, \pk{luacode}, \pf{metalogo}
-(providing ©\LuaTeX© and ©\LuaLaTeX©), \pk{luatexbase}, \pk{lualibs},
-\pf{fixltx2e} (fixes and enhancements for the \latex core).
+(commands for logos, including ©\LuaTeX© and ©\LuaLaTeX©), \pk{luatexbase},
+\pk{lualibs}, \pf{fixltx2e} (fixes and enhancements for the \latex core).
 
 \pkdesc{luacode}{\MPG}{\luatex}{\latex}{%
   macros/luatex/latex/luacode/}[https://github.com/mpg/luacode]
@@ -619,16 +624,27 @@ on the \luatex mailing lists, and \file{lualatexquotejobname.tex} for the
 implementation of the workaround.
 
 \para{babel}
-\luatex offers dynamic loading for hyphenation patterns. There is
-currently no support for this in \pf{babel} but some files have been modified
-to provide semi-dynamic loading, to achieve a better loading time of the
-format. More about this later.
+\luatex offers dynamic loading for hyphenation patterns. There is currently no
+support for this in \pf{babel} but some files have been modified to provide
+semi-dynamic loading, to achieve a better loading time of the format. This is
+only an implementation change, nothing should be visible at the user level.
+A modified pattern loading scheme is used for Plain-based formats too.
+
+Documentation and implementation details are included in
+\file{luatex-hyphen.pdf}. The sources are part of the
+\href{http://tug.org/tex-hyphen/}{texhyphen project}.
 
 \para{codes}
-The engine itself does not set catcodes, lccodes and uccodes for non-ASCII
-characters. This was added in the format after \texlive 2010 went out. You are
-strongly advised to update your installation if you want to enjoy proper
-hyphenation for non-ASCII text. More about this later.
+The engine itself does not set ©\catcode©s, ©\lccode©s, etc. for non-ASCII
+characters. Correct ©\lccode©s in particular are essential for hyphenation to
+work. Formats for \luatex now include \file{luatex-unicode-letters.tex}, a
+modified version of \file{unicode-letters.tex} from the \xetex distribution,
+that takes care of settings these values in accordance with the Unicode
+standard.
+
+This was added after \texlive 2010 went out, so you are strongly advised to
+update your installation if you want to enjoy proper hyphenation for non-ASCII
+text.
 
 
 \section{Things that just work, partially work, or don't work (yet)}
@@ -680,12 +696,21 @@ document).
 \para{metrics}
 This item isn't exactly about working or not working, but rather about not
 working in exactly the same way as \pdftex or \xetex: you may observe minor
-differences in the layout and hyphenation of you text. They may be due minor
-variations between two versions of the same font used by the various engines,
-or to subtle adjustments made to the hyphenation, or kerning algorithms. If
-you ever observe a major difference between pdf\latex and \lualatex with the
-same fonts, it is not at all unlikely that a bug of \luatex or in the font is
-involved.
+differences in the layout and hyphenation of your text.
+
+They may be due variations between two versions of the same font used by the
+various engines, adjustments made to the hyphenation, ligaturing or kerning
+algorithms (or example, the first word of a paragraph, as well as words
+containing different fonts, can now be hyphenated), or differences in the
+hyphenation patterns used (patterns used by \pdftex are basically frozen, but
+\luatex and \xetex use newer version for some languages) for this language.
+
+If you ever observe a major difference between pdf\latex and \lualatex with
+the same fonts, it is not at all unlikely that a bug in \luatex\footnote{For
+  example, \luatex 0.60 had a bug that prevented any hyphenation after a
+  \code{-{}-{}-} ligature until the end of the paragraph.} or in the font is
+involved. As usual, make sure your distribution is up-to-date before reporting
+such a problem.
 
 \par{babel}
 Short version: working mostly without problems for Latin languages. For other

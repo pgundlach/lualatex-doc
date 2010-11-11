@@ -4,12 +4,3 @@ get my ideas clear on that matter and rework the correspoding paragraphs.
 See mail from Ulrike.
 
 - expand on babel/polyglossia & non-latin languages
-
-- expand stub paragraphs in the formats section
-
-- investigate why " appears always as right quotes in \tt
-
-- maybe expand/rework \para{metrics}: (via Stephan)
-    - 1st word of a par, font changes are not word boundaries
-    - ligatures??? (6.5 of the manual - but does luaotfload change it?)
-    - new patterns, unlike old engines
