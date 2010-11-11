@@ -15,7 +15,9 @@ world: all ctan
 .PHONY: all world
 
 %.pdf: %.tex
-	latexmk -silent -pdflatex=lualatex $< >/dev/null
+	# option -pdflatex will be available in the next release
+	# of latexmk (4.19)
+	latexmk -pdf -silent -pdflatex=lualatex $< >/dev/null
 
 $(README): $(MKD)
 	@cp $(MKD) $(README)
