@@ -17,10 +17,11 @@ world: all ctan
 
 .PHONY: all world
 
+# (with the next version of latexmk: -pdf -pdflatex=lualatex)
+LATEXMK_FMT = -pdf -e '$$pdflatex = q(lualatex %O %S)'
+
 %.pdf: %.tex
-	# option -pdflatex will be available in the next release
-	# of latexmk (4.19)
-	latexmk -pdf -silent -pdflatex=lualatex $< >/dev/null
+	latexmk -silent $(LATEXMK_FMT) $< >/dev/null
 
 $(README): $(MKD)
 	@cp $(MKD) $(README)
