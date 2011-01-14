@@ -150,7 +150,7 @@ the rest of the document provides more details about the available packages.
 There are only three differences:
 \begin{enumerate}
   \item Don't load \pf{inputenc}, just encode your source in UTF-8.
-  \item Don't load \pf{fontenc}, but load \pf{fontspec}.
+  \item Don't load \pf{fontenc} nor \pf{textcomp}, but load \pf{fontspec}.
   \item Don't use any package that changes the fonts, but use \pf{fontspec}'s
     commands instead.
 \end{enumerate}
@@ -469,9 +469,11 @@ loading.
 \pkdesc{euenc}{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
   macros/latex/contrib/euenc/}[https://github.com/wspr/euenc]
 Implements the EUx Unicode font encodings for \latex's \pf{fontenc} system.
-Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
+Currently, \xelatex is using ©EU1© and \lualatex is using ©EU2©. Includes
 definitions (\file{fd} files) for Latin Modern, the default font loaded by
-\pk{fontspec}. To be precise, \pf{euenc} merely declares the encoding, but
+\pk{fontspec}.
+
+To be precise, \pf{euenc} merely declares the encoding, but
 doesn't provide definitions for LICR macros; this is done by loading
 \pk{xunicode} with ©\UTFencname© defined to ©EU1© or ©EU2©, which
 \pk{fontspec} does. The actual encodings are the same, but it is useful to
@@ -727,15 +729,16 @@ didn't work properly with \pf{frenchb} 2.3d, but do the right thing with 2.5b
 
 A more modern, but less complete, package for multilingual support,
 \pf{polyglossia} is available for \xelatex but is not ported to \lualatex yet.
-
-Long version: erf, actually I don't know the details yet. I'll try to gather
-more information and update this paragraph. Please let me know if you have
-experience or knowledge to share in this domain.
+If you known more about what precisely works or not with \pf{babel} or what
+can be expected to work better or not with \pf{polyglossia} once it's ported,
+please let me know so that I can enhance this paragraph.
 
 \subsection{Not working (yet)}\label{notworking}
 
 \para{old encodings}[oldenco] Packages playing with input (source files) or
-output (fonts) encodings are very likely to break with \luatex. The good news
+output (fonts) encodings are very likely to break with \luatex. This includes
+\pf{inputenc}, \pf{fontenc}, \pf{textcomp}, and probably most classical font
+packages such as \pf{mathptmx} or \pf{fourier}. The good news
 is, Unicode is a more powerful way to handle encoding problems that old
 packages were trying to solve, so you most likely don't need these packages
 anyway. However, not everything is already ported to the shiny new world of
