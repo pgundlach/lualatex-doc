@@ -468,10 +468,15 @@ loading.
 
 \pkdesc{euenc}{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
   macros/latex/contrib/euenc/}[https://github.com/wspr/euenc]
-Implements the ©EUx© Unicode font encodings for \latex's \pf{fontenc} system.
+Implements the EUx Unicode font encodings for \latex's \pf{fontenc} system.
 Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
 definitions (\file{fd} files) for Latin Modern, the default font loaded by
-\pk{fontspec}.
+\pk{fontspec}. To be precise, \pf{euenc} merely declares the encoding, but
+doesn't provide definitions for LICR macros; this is done by loading
+\pk{xunicode} with ©\UTFencname© defined to ©EU1© or ©EU2©, which
+\pk{fontspec} does. The actual encodings are the same, but it is useful to
+have distinct names so that different \file{fd} files can be used according to
+the engine (which is actually the case with Latin Modern).
 
 
 \section{Other packages}\label{other}
