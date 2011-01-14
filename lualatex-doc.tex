@@ -237,9 +237,9 @@ it's the simplest (since it's more Lua than \tex). If you look at the \luatex
 manual, you'll see there is another function with a simpler name, ©tex.print©,
 to pass information this way. It works by virtually inserting a full line into
 your \tex source, whose contents are its argument. In case you didn't know,
-\tex does all kinds of nasty\footnote{Okay, these are usually nice and helpful
+\tex does many nasty\footnote{Okay, these are usually nice and helpful
   actions, but in this case they are most probably unexpected so I call them
-  nasty.} things with full lines of the source, like
+  nasty.} things with full lines of the source:
 ignoring spaces at the beginning and end of line and appending an end-of-line
 character. Most of the time, you don't want this to happen, so I recommend
 using ©tex.sprint© which virtually inserts its argument in the current line,
@@ -718,10 +718,15 @@ involved. As usual, make sure your distribution is up-to-date before reporting
 such a problem.
 
 \par{babel}
-Short version: working mostly without problems for Latin languages. For other
-languages, your mileage may vary. A more modern, but less complete, package
-for multilingual support, \pf{polyglossia} is available for \xelatex but is
-not ported to \lualatex yet.
+Mostly working mostly without problems for Latin languages. For other
+languages, your mileage may vary. Even for Latin languages, encoding-related
+problems my happen. For example, in French, commands for French guillemots
+didn't work properly with \pf{frenchb} 2.3d, but do the right thing with 2.5b
+(not yet on CTAN, but available on the \href
+{http://daniel.flipo.free.fr/frenchb/index.html} {author's page}).
+
+A more modern, but less complete, package for multilingual support,
+\pf{polyglossia} is available for \xelatex but is not ported to \lualatex yet.
 
 Long version: erf, actually I don't know the details yet. I'll try to gather
 more information and update this paragraph. Please let me know if you have
