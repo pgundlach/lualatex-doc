@@ -1,6 +1,6 @@
 % lualatex-doc: a guide to LuaLaTeX
 %
-% Written by Manuel Pgouri-Gonnard <mpg@elzevir.fr>, 2010.
+% Written by Manuel Pégourié-Gonnard <mpg@elzevir.fr>, 2010.
 %
 % Distributed under the terms of the GNU free documentation licence:
 %   http://www.gnu.org/licenses/fdl.html
@@ -9,7 +9,7 @@
 \documentclass{lltxdoc}
 
 \title{A guide to \lualatex}
-\author{Manuel Pgouri-Gonnard \email{mpg@elzevir.fr}}
+\author{Manuel Pégourié-Gonnard \email{mpg@elzevir.fr}}
 \date{\today}
 
 \begin{document}
@@ -50,7 +50,7 @@ invoked with a particular name.
 Actually, a format is more or less like a document class or a package, except
 it is associated with a particular command name. Imagine there is a command
 \cmd{latex-article} that would do the same as \cmd{latex}, except you wouldn't
-need to say \documentclass{article} at the beginning of your file.
+need to say ©\documentclass{article}© at the beginning of your file.
 Similarly, in current distributions, the command \cmd{pdflatex} is the same as
 the command \cmd{pdftex} except that you don't need to put the instructions to
 load \latex at the beginning of your source file. This is convenient, and
@@ -103,8 +103,8 @@ We can now answer the title question: \lualatex is the \luatex engine with the
 \medskip
 
 As you probably know, \latex is the general framework
-in which documents begin with \documentclass, packages are loaded with
-\usepackage, fonts are selected in a clever way (so that you can switch to
+in which documents begin with ©\documentclass©, packages are loaded with
+©\usepackage©, fonts are selected in a clever way (so that you can switch to
 boldface while preserving italics), pages are build with complicated
 algorithms
 including support for headers, footers, footnotes, margin notes, floating
@@ -126,12 +126,12 @@ typographic algorithms. The main new features of \luatex are:
     section~\ref{luaintex} for details).
   \item A lot of wonderful Lua libraries, including:
     \begin{itemize}
-      \item fontloader, supporting modern font formats such as
+      \item ©fontloader©, supporting modern font formats such as
         TrueType and OpenType;
-      \item font, allowing advanced manipulation of the fonts
+      \item ©font©, allowing advanced manipulation of the fonts
         from within the document;
-      \item mplib, an embedded version of the graphic program MetaPost;
-      \item callback, providing hooks into parts of the \tex engine that
+      \item ©mplib©, an embedded version of the graphic program MetaPost;
+      \item ©callback©, providing hooks into parts of the \tex engine that
         were previously inaccessible to the programmer;
       \item utility libraries for manipulating images, pdf files, etc.
     \end{itemize}
@@ -155,12 +155,12 @@ There are only three differences:
     commands instead.
 \end{enumerate}
 So, you only need to get familiar with \pf{fontspec}, which is
-easy: select the main (serif) font with \setmainfont, the sans serif font
-with \setsansfont and the mono-spaced (typewriter) font with \setmonofont.
+easy: select the main (serif) font with ©\setmainfont©, the sans serif font
+with ©\setsansfont© and the mono-spaced (typewriter) font with ©\setmonofont©.
 The argument to these commands is the human-friendly name of the font, for
-example Latin Modern Roman rather than ec-lmr10. You probably want to use
-\defaultfontfeatures{Ligatures=TeX} before these commands to keep the usual
-\tex substitutions (such as --- for an em-dash) working.
+example ©Latin Modern Roman© rather than ©ec-lmr10©. You probably want to use
+©\defaultfontfeatures{Ligatures=TeX}© before these commands to keep the usual
+\tex substitutions (such as ©---© for an em-dash) working.
 
 The good news is: you can directly access any font on your operating system
 (in addition to those of your \tex distribution) including TrueType and
@@ -210,7 +210,7 @@ readable book \emph{Programming in Lua}, whose first edition is freely
 \href{http://www.lua.org/pil/} {available online}. For a quick start, I
 recommend you read chapters~1 to~5 and have a quick glance at part~3. Note
 that all the libraries mentioned in chapter~3 are included in \luatex, but the
-os library is restricted for security reasons.
+©os© library is restricted for security reasons.
 
 Depending on your programming culture, you may be directly interested in the
 rest of part~1 and part~2 which present more advanced features of the
@@ -222,9 +222,9 @@ comes with a handy index.
 \medskip
 
 Now, let's turn to Lua in \luatex. The main way to execute Lua code from the
-\tex end is the \directlua command, which takes arbitrary Lua code as an
+\tex end is the ©\directlua© command, which takes arbitrary Lua code as an
 argument. Conversely, you can pass information from Lua to \tex with
-tex.sprint.\footnote{The name probably means ``string print'' as opposed to
+©tex.sprint©.\footnote{The name probably means ``string print'' as opposed to
   ``run very fast for a short period of time.''} For example,
 \begin{Verbatim}
   the standard approximation $\pi = \directlua{tex.sprint(math.pi)}$
@@ -234,7 +234,7 @@ in your document. See how easy it is to mix \tex and Lua?
 
 Actually, there are a few gotchas. Let's look at the Lua to \tex way first,
 it's the simplest (since it's more Lua than \tex). If you look at the \luatex
-manual, you'll see there is another function with a simpler name, tex.print,
+manual, you'll see there is another function with a simpler name, ©tex.print©,
 to pass information this way. It works by virtually inserting a full line into
 your \tex source, whose contents are its argument. In case you didn't know,
 \tex does all kinds of nasty\footnote{Okay, these are usually nice and helpful
@@ -242,11 +242,11 @@ your \tex source, whose contents are its argument. In case you didn't know,
   nasty.} things with full lines of the source, like
 ignoring spaces at the beginning and end of line and appending an end-of-line
 character. Most of the time, you don't want this to happen, so I recommend
-using tex.sprint which virtually inserts its argument in the current line,
+using ©tex.sprint© which virtually inserts its argument in the current line,
 so is much more predictable.
 
 If you're enough of a \tex{}nician to know about catcodes, you'll be happy to
-know that tex.print and its variants give you nearly full control over the
+know that ©tex.print© and its variants give you nearly full control over the
 catcodes used for tokenizing the argument, since you can specify a catcode
 table as the first argument. You'll probably want to learn about catcode
 tables (currently~2.7.6 in the \luatex manual) before you're fully happy. If
@@ -255,10 +255,10 @@ you don't know about catcodes, just skip this paragraph.\footnote{Erf, too
 
 \medskip
 
-Let's look at \directlua now. To get an idea about how it works, imagine that
-it's a \write command, but it writes only to a virtual file and immediately
+Let's look at ©\directlua© now. To get an idea about how it works, imagine that
+it's a ©\write© command, but it writes only to a virtual file and immediately
 arranges for this file to be fed to the Lua interpreter. On the Lua end, the
-consequence is that each argument of a \directlua command has its own scope:
+consequence is that each argument of a ©\directlua© command has its own scope:
 local variables from one will not be visible to the other. (Which is rather
 sane, but always good to know.)
 
@@ -273,7 +273,7 @@ usually matter, but it does if you use comments:
     -- a comment
     another_function()}
 \end{Verbatim}
-won't do what you probably expect: another_function() will be seen as part
+won't do what you probably expect: ©another_function()© will be seen as part
 of the comment (it's only one line, remember).
 
 Another consequence of being read by \tex is that successive spaces are merged
@@ -285,7 +285,7 @@ correct version of the previous example.
     another_function()}
 \end{Verbatim}
 It is also worth noticing that, since the argument basically is inside a
-\write, it's in expansion-only context. If you don't know what it means, let
+©\write©, it's in expansion-only context. If you don't know what it means, let
 me say that expansion issues are mostly what makes \tex programming so
 difficult to avoid expanding further on that matter.
 
@@ -301,8 +301,8 @@ debugging trick. Put the following code near the beginning of your document:
   \newcommand\directluadebug{\immediate\write\luadebug}
 \end{Verbatim}
 Then, when you have a hard time understanding why a particular call to
-\directlua doesn't do what you expect, replace this instance of the command
-with \directluadebug, compile as usual and look in the file
+©\directlua© doesn't do what you expect, replace this instance of the command
+with ©\directluadebug©, compile as usual and look in the file
 \file{luadebug.lua} produced what the Lua interpreter actually read.
 
 The \pk{luacode} package provides commands and environments that help to
@@ -315,9 +315,9 @@ example:
   \newcommand*{\greatmacro}[2]{%
     \directlua{my_great_function("\luatexluaescapestring{#1}", #2)}}
 \end{Verbatim}
-The example assumes that my_great_function is defined in
-my-lua-functions.lua and takes a string and a number as arguments. Notice
-that we carefully use the \luatexluaescapestring primitives on the string
+The example assumes that ©my_great_function© is defined in
+©my-lua-functions.lua© and takes a string and a number as arguments. Notice
+that we carefully use the ©\luatexluaescapestring© primitives on the string
 argument to escape any backslash or double-quote it might contain and which
 would confuse the Lua parser.\footnote{If you ever used SQL then the concept
   of escaping strings is hopefully not new to you.}
@@ -325,7 +325,7 @@ would confuse the Lua parser.\footnote{If you ever used SQL then the concept
 \medskip
 
 That's all concerning Lua in \tex. If you're wondering why
-\luatexluaescapestring has such a long and silly name, you might want to
+©\luatexluaescapestring© has such a long and silly name, you might want to
 read the next section.
 
 \subsection{Other things you should know}\label{things}
@@ -337,9 +337,9 @@ consult it at some point (though it is a bit arid and technical).
 It is important to know that the name of the new primitives of \luatex as you
 read them in the manual are not the actual names you'll be able to use in
 \lualatex. To prevent clashes with existing macro names, all new primitives
-have been prefixed with \luatex unless they already start with it, so
-\luaescapestring becomes \luatexluaescapetring while \luatexversion
-remains \luatexversion. The rationale is detailed in section~\ref{formats}.
+have been prefixed with ©\luatex© unless they already start with it, so
+©\luaescapestring© becomes ©\luatexluaescapetring© while ©\luatexversion©
+remains ©\luatexversion©. The rationale is detailed in section~\ref{formats}.
 
 \medskip
 
@@ -377,22 +377,22 @@ selection scheme. Already presented in the previous section.
 
 \subsubsection{Naming conventions}
 
-On the \tex end, control sequences starting with \luatex are reserved for
+On the \tex end, control sequences starting with ©\luatex© are reserved for
 primitives. It is strongly recommended that you do \emph{not} define any such
 control sequence, to prevent name clashes with future versions of \luatex. If
 you want to a emphasize that a macro is specific to \luatex, we recommend that
-you use the \lua prefix (without a following tex) instead. It is okay to
-use the \luatex@ prefix for internal macros, since primitive names never
-contain @, but it might be confusing. Moreover, you're already using a
+you use the ©\lua© prefix (without a following ©tex©) instead. It is okay to
+use the ©\luatex@© prefix for internal macros, since primitive names never
+contain ©@©, but it might be confusing. Moreover, you're already using a
 unique prefix for internal macros in all of your packages, aren't you?
 
 On the Lua end, please keep the global namespace as clean as possible. That
-is, use a table mypackage and put all your public functions and objects in
+is, use a table ©mypackage© and put all your public functions and objects in
 this table. You might want to use Lua's
 \href{http://www.lua.org/manual/5.1/manual.html#pdf-module} {\code{module()}}.
 Other strategies for Lua module management are discussed in
 \href{http://www.lua.org/pil/15.html} {chapter~15 of \emph{Programming in
-    Lua}}.  Also, it is probably a good idea to use local for your internal
+    Lua}}.  Also, it is probably a good idea to use ©local© for your internal
 variables and functions. Finally, to avoid clashes with future versions of
 \luatex, it is recommended to avoid modifying the namespaces of \luatex's
 default libraries.
@@ -403,23 +403,23 @@ Various packages allow to detect the engine currently processing the document.
 
 \pkdesc{ifluatex}{\HO}{all}{\latex, Plain}{%
   macros/latex/contrib/oberdiek/}
-Provides \ifluatex and makes sure \luatexversion is available.
+Provides ©\ifluatex© and makes sure ©\luatexversion© is available.
 
 \pkdesc{iftex}{\VK}{all}{\latex, Plain}{%
   macros/latex/contrib/iftex/}[http://bitbucket.org/vafa/iftex]
-Provides \ifPDFTeX, \ifXeTeX, \ifLuaTeX and corresponding \Require
+Provides ©\ifPDFTeX©, ©\ifXeTeX©, ©\ifLuaTeX© and corresponding ©\Require©
 commands.
 
 \pkdesc{expl3}{The \LaTeX3 Project}{all}{\latex}{%
   macros/latex/contrib/expl3/}[http://www.latex-project.org/code.html]
-Amongst \emph{many} other things, provides \luatex_if_engine:TF,
-\xetex_if_engine:TF and their variants.
+Amongst \emph{many} other things, provides ©\luatex_if_engine:TF©,
+©\xetex_if_engine:TF© and their variants.
 
 \pkdesc{ifpdf}{\HO}{all}{\latex, Plain}{%
   macros/latex/contrib/oberdiek/}
-Provides \ifpdf switch. \luatex, like \pdftex, can produce either PDF or DVI
+Provides ©\ifpdf© switch. \luatex, like \pdftex, can produce either PDF or DVI
 output; the later is not very useful with \luatex as it doesn't support any
-advanced feature such as Unicode and modern font formats. The \ifpdf switch
+advanced feature such as Unicode and modern font formats. The ©\ifpdf© switch
 is true if and only if you are running \pdftex-or-\luatex in PDF mode (note
 that this doesn't include \xetex, whose support for PDF is different).
 
@@ -459,8 +459,8 @@ may need to know about them.
 \pkdesc{luaotfload}{\ER \& \KH}{\luatex}{\latex, Plain}{%
   macros/luatex/generic/luaotfload/}[https://github.com/khaledhosny/luaotfload]
 Low-level OpenType font loading, adapted from the generic subset of \context.
-Basically, it uses the fontloader Lua library and the appropriate callbacks
-to implement a syntax for the \font primitive very similar to that of \xetex
+Basically, it uses the ©fontloader© Lua library and the appropriate callbacks
+to implement a syntax for the ©\font© primitive very similar to that of \xetex
 and implement the corresponding font features. It also handles a font database
 for transparent access to fonts from the system and the \tex distribution
 either by family name or by file name, as well as a font cache for faster
@@ -468,13 +468,10 @@ loading.
 
 \pkdesc{euenc}{\WSPR, \ER \& \KH}{\xetex, \luatex}{\latex}{%
   macros/latex/contrib/euenc/}[https://github.com/wspr/euenc]
-Implements the EUx Unicode font encodings for \latex's \pf{fontenc} system.
-Currently, \xelatex is using EU1 and \luatex is using EU2. Includes
+Implements the ©EUx© Unicode font encodings for \latex's \pf{fontenc} system.
+Currently, \xelatex is using ©EU1© and \luatex is using ©EU2©. Includes
 definitions (\file{fd} files) for Latin Modern, the default font loaded by
-\pk{fontspec}. To be precised, \pf{euenc} merely declares the encoding, but
-doesn't provide definitions for LICR macros; this is done by loading
-\pk{xunicode} with ©\UTFencname© defined to ©EU1© or ©EU2©, which
-\pk{fontspec} does.
+\pk{fontspec}.
 
 
 \section{Other packages}\label{other}
@@ -486,7 +483,7 @@ Note that the packages are not listed in any particular order.
 \pkdesc{luatextra}{\ER \& \MPG}{\luatex}{\latex}{%
   macros/luatex/latex/luatextra/}[https://github.com/mpg/luatextra]
 Loads usual packages, currently \pk{fontspec}, \pk{luacode}, \pf{metalogo}
-(commands for logos, including \LuaTeX and \LuaLaTeX), \pk{luatexbase},
+(commands for logos, including ©\LuaTeX© and ©\LuaLaTeX©), \pk{luatexbase},
 \pk{lualibs}, \pf{fixltx2e} (fixes and enhancements for the \latex core).
 
 \pkdesc{luacode}{\MPG}{\luatex}{\latex}{%
@@ -503,14 +500,14 @@ just loads \pf{xetex-inputenc}; under \pdftex, loads the standard
 
 \pkdesc{luamplib}{\HH, \Taco \& \ER}{\luatex}{\latex, Plain}{%
   macros/luatex/generic/luamplib/}[https://github.com/mpg/luamplib]
-Provides a nice interface for the mplib Lua library that embeds metapost in
+Provides a nice interface for the ©mplib© Lua library that embeds metapost in
 \luatex.
 
 \pkdesc{luacolor}{\HO}{\luatex}{\latex}{%
   macros/latex/contrib/oberdiek/}
 Changes low-level color implementation to use \luatex attributes in place of
 whatsits. This makes the implementation more robust and fixes strange bugs
-such as wrong alignment when \color happens at the beginning of a \vbox.
+such as wrong alignment when ©\color© happens at the beginning of a ©\vbox©.
 
 \pkdesc{luadirections}{\KH}{\luatex}{\latex, Plain, \context}{}
 [https://github.com/khaledhosny/luadirections]
@@ -524,7 +521,7 @@ released on CTAN.
 Though \luatex is mostly a superset of \pdftex, a few utility primitives were
 removed (those that are sort of superseded by Lua) or renamed. This package
 provides them with consistent names across engines, including \xetex which
-recently implemented some of these primitives, such as \strcmp.
+recently implemented some of these primitives, such as ©\strcmp©.
 
 \pkdesc{magicnum}{\HO}{\luatex, \pdftex, \xetex}{\latex, Plain}{%
   macros/latex/contrib/oberdiek/}
@@ -562,7 +559,7 @@ implements this for the \cmd{lualatex} format, is:
       those primitives are left untouched.
     \item Other non-TeX82 primitives in \luatex may cause name clashes with
       existing macros in macro packages, especially when they use very
-      ``natural'' names such as \outputbox, \mathstyle etc. Such a
+      ``natural'' names such as ©\outputbox©, ©\mathstyle© etc. Such a
       probability for name clashes is undesirable, since the most existing
       LaTeX documents that run without change under \luatex, the better.
     \item The \luatex team doesn't want to apply a systematic prefixing policy,
@@ -571,29 +568,29 @@ implements this for the \cmd{lualatex} format, is:
       we feel it's better to enable them with systematic prefixing, in order
       to avoid that each and every macro package (or user) enables them with
       various and inconsistent prefixes (including the empty prefix).
-    \item The luatex prefix was chosen since it is already used as a prefix
-      for some primitives, such as \luatexversion: this way, those
+    \item The ©luatex© prefix was chosen since it is already used as a prefix
+      for some primitives, such as ©\luatexversion©: this way, those
       primitives don't end up with a double prefix (for details, see
-      tex.enableprimitives in the \luatex manual).
-    \item The \directlua primitive is provided both with its natural name
+      ©tex.enableprimitives© in the \luatex manual).
+    \item The ©\directlua© primitive is provided both with its natural name
       (allowing easy detection of \luatex) and a prefixed version
-      \luatexdirectlua (for consistency with \luatexlatelua).
+      ©\luatexdirectlua© (for consistency with ©\luatexlatelua©).
     \item Various remarks:
       \begin{itemize}
         \item The obvious drawback of such a prefixing policy is that the
           names used by \latex or generic macro writer won't match the names
           used in the manual.  We hope this is compensated by the gain in
           backwards compatibility.
-        \item All primitives dealing with Unicode math already begin with \U,
+        \item All primitives dealing with Unicode math already begin with ©\U©,
           and maybe will match the names of \xetex primitives some day, so
           maybe prefixing was not necessary/desirable for them. However, we
           tried to make the prefixing rule as simple as possible, so that
           the previous point doesn't get even worse.
         \item The final name of some primitive may sound strange, namely those
           already containing the name of an engine, such as
-          \luatexOmegaVersion.  However, since \luatex is not a drop-in
+          ©\luatexOmegaVersion©.  However, since \luatex is not a drop-in
           replacement for Omega/Aleph, we felt it wrong to provide
-          \OmegaVersion.
+          ©\OmegaVersion©.
         \item Maybe some day we'll feel it's better to provide all primitives
           without prefixing. If this happens, it will be easy to add the
           unprefixed primitives in the format while keeping the prefixed names
@@ -607,16 +604,16 @@ implements this for the \cmd{lualatex} format, is:
 
 \para{\cs{jobname}}[jobname]
 The \latex kernel (and a lot of packages) use constructs like
-\input\jobname.aux for various purposes. When \jobname contains spaces,
-this doesn't do the right thing, since the argument of \input ends at the
-first space. To work around this, \pdftex automagically quotes \jobname when
+©\input\jobname.aux© for various purposes. When ©\jobname© contains spaces,
+this doesn't do the right thing, since the argument of ©\input© ends at the
+first space. To work around this, \pdftex automagically quotes ©\jobname© when
 needed, but \luatex doesn't for some reason. A nearly complete workaround is
 included in \latex-based (as opposed to Plain-based) \luatex formats.
 
-It doesn't work, however, if \luatex is invoked as lualatex'\inputname',
-as opposed to the more usual lualatexname. To work around this
+It doesn't work, however, if \luatex is invoked as ©lualatex '\input name'©,
+as opposed to the more usual ©lualatex name©. To work around this
 limitation of the workaround included in the format, specifying a jobname
-explicitly, as in lualatexjobname=name '\inputname'. Or even better, just
+explicitly, as in ©lualatex jobname=name '\input name'©. Or even better, just
 don't use spaces in the names of your \tex files.
 
 For more details, see
@@ -638,8 +635,8 @@ Documentation and implementation details are included in
 \href{http://tug.org/tex-hyphen/}{texhyphen project}.
 
 \para{codes}
-The engine itself does not set \catcodes, \lccodes, etc. for non-ASCII
-characters. Correct \lccodes in particular are essential for hyphenation to
+The engine itself does not set ©\catcode©s, ©\lccode©s, etc. for non-ASCII
+characters. Correct ©\lccode©s in particular are essential for hyphenation to
 work. Formats for \luatex now include \file{luatex-unicode-letters.tex}, a
 modified version of \file{unicode-letters.tex} from the \xetex distribution,
 that takes care of settings these values in accordance with the Unicode
@@ -682,7 +679,7 @@ interface.
 
 \para{xunicode}
 Package \pf{xunicode}'s main feature is to ensure that the usual control
-sequences for non-ASCII characters (such as \'e) do the right thing in a
+sequences for non-ASCII characters (such as ©\'e©) do the right thing in a
 Unicode context. It could \emph{probably} work with \luatex, but explicitly
 checks for \xetex only. However, \pk{fontspec} uses a trick to load it anyway.
 So, you can't load it explicitly, but you don't need to, since \pk{fontspec}
